@@ -1,7 +1,7 @@
 import { SVGProps } from "react";
 import { z } from "zod";
 
-import { insertExpensesSchema } from "@/app/api/[[...route]]/db/schema/expenses";
+import { insertExpensesSchema } from "@/lib/schema/expenses";
 
 export type IconSvgProps = SVGProps<SVGSVGElement> & {
   size?: number;

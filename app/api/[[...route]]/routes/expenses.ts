@@ -8,7 +8,7 @@ import { db } from "../db";
 import {
   expenses as expensesTable,
   insertExpensesSchema,
-} from "@/app/api/[[...route]]/db/schema/expenses";
+} from "@/lib/schema/expenses";
 import { createExpenseSchema } from "@/types";
 
 const userIdSchema = z.object({
