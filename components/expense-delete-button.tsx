@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { TrashIcon } from "./icons";
 
-import { deleteExpense, getAllExpensesQueryOptions } from "@/api/expenses";
+import { deleteExpense, getAllExpensesQueryOptions } from "@/hono-api/expenses";
 
 export const ExpenseDeleteButton = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();

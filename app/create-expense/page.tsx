@@ -10,12 +10,12 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { title } from "@/components/primitives";
 import {
   createExpense,
   getAllExpensesQueryOptions,
   loadingCreateExpenseQueryOptions,
-} from "@/api/expenses";
-import { title } from "@/components/primitives";
+} from "@/hono-api/expenses";
 import { getOrCreateUUID } from "@/lib/utils";
 import { createExpenseSchema } from "@/types";
 

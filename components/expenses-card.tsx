@@ -4,7 +4,7 @@ import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Skeleton } from "@nextui-org/skeleton";
 import { useQuery } from "@tanstack/react-query";
 
-import { getTotalSpent } from "@/api/expenses";
+import { getTotalSpent } from "@/hono-api/expenses";
 import { formatCurrency } from "@/lib/utils";
 
 export const ExpensesCard = () => {
