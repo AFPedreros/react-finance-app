@@ -8,14 +8,7 @@
     "prettier-plugin-tailwindcss",
     "@ianvs/prettier-plugin-sort-imports"
   ],
-  "importOrder": [
-    "^[a-z0-9]",
-    "",
-    "^@/components/(.*)$",
-    "^@/config/(.*)$",
-    "",
-    "^[./]"
-  ],
+  "importOrder": ["^[a-z0-9]", "", "^[./]", "", "^@/(.*)$"],
   "importOrderSeparation": true,
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "importOrderTypeScriptVersion": "5.0.0"
