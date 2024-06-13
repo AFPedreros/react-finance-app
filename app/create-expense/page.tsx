@@ -76,7 +76,7 @@ export default function CreateExpensePage() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col w-full gap-4">
       <h1 className={title()}>Create Expense</h1>
       <form
         className="flex flex-col w-full gap-4 p-4 rounded-large shadow-small bg-content1"

@@ -1,9 +1,15 @@
+import { ExpensesCard } from "@/components/expenses-card";
+import { ExpensesTable } from "@/components/expenses-table";
 import { title } from "@/components/primitives";
 
 export default function ExpensesPage() {
   return (
-    <div>
+    <div className="flex flex-col w-full gap-4">
       <h1 className={title()}>Expenses</h1>
+
+      <ExpensesCard />
+
+      <ExpensesTable />
     </div>
   );
 }

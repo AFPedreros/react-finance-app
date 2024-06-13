@@ -16,11 +16,7 @@ const userIdSchema = z.object({
 });
 
 export const expensesRoute = new Hono()
-  .get("/hello", (c) => {
-    return c.json({
-      message: "Hello Next.js!",
-    });
-  })
+
   .get("/", zValidator("query", userIdSchema), async (c) => {
     const data = await c.req.valid("query");
     const { userId } = data;
@@ -55,7 +51,6 @@ export const expensesRoute = new Hono()
     const { userId } = data;
 
     const id = Number.parseInt(c.req.param("id"));
-
     const expense = await db
       .select()
       .from(expensesTable)
@@ -73,7 +68,6 @@ export const expensesRoute = new Hono()
     const { userId } = data;
 
     const id = Number.parseInt(c.req.param("id"));
-
     const expense = await db
       .delete(expensesTable)
       .where(and(eq(expensesTable.userId, userId), eq(expensesTable.id, id)))
