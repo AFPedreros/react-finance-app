@@ -18,7 +18,7 @@ import { LoadingExpensesTable } from "./loading-expenses-table";
 import {
   getAllExpensesQueryOptions,
   loadingCreateExpenseQueryOptions,
-} from "@/hono-api/expenses";
+} from "@/api-client/expenses";
 import { expensesColumns } from "@/lib/tableColumns";
 import { formatCurrency } from "@/lib/utils";
 

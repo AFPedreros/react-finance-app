@@ -6,7 +6,11 @@ import { toast } from "sonner";
 
 import { TrashIcon } from "./icons";
 
-import { deleteExpense, getAllExpensesQueryOptions } from "@/hono-api/expenses";
+import {
+  deleteExpense,
+  getAllExpensesQueryOptions,
+  getTotalSpentQueryOptions,
+} from "@/api-client/expenses";
 
 export const ExpenseDeleteButton = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
@@ -15,7 +19,7 @@ export const ExpenseDeleteButton = ({ id }: { id: string }) => {
     onError: () => {
       toast.error("Error deleting expense");
     },
-    onSuccess: () => {
+    onSuccess: (deletedExpense) => {
       toast.success("Expense deleted!");
 
       queryClient.setQueryData(
@@ -23,9 +27,19 @@ export const ExpenseDeleteButton = ({ id }: { id: string }) => {
         (existingExpenses) => ({
           ...existingExpenses,
           expenses: existingExpenses!.expenses.filter(
-            (e) => e.id !== Number(id),
+            (expense) => expense.id !== Number(id),
           ),
         }),
+      );
+
+      queryClient.setQueryData(
+        getTotalSpentQueryOptions.queryKey,
+        (oldTotal) => {
+          const newTotal =
+            Number(oldTotal?.total) - Number(deletedExpense.amount);
+
+          return { total: newTotal.toString() };
+        },
       );
     },
   });

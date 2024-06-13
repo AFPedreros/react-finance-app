@@ -16,7 +16,6 @@ const userIdSchema = z.object({
 });
 
 export const expensesRoute = new Hono()
-
   .get("/", zValidator("query", userIdSchema), async (c) => {
     const data = await c.req.valid("query");
     const { userId } = data;
@@ -61,7 +60,7 @@ export const expensesRoute = new Hono()
       return c.notFound();
     }
 
-    return c.json({ expense });
+    return c.json(expense);
   })
   .delete("/:id{[0-9]+}", zValidator("query", userIdSchema), async (c) => {
     const data = await c.req.valid("query");
@@ -78,7 +77,7 @@ export const expensesRoute = new Hono()
       return c.notFound();
     }
 
-    return c.json({ expense });
+    return c.json(expense);
   })
   .get("/total-spent", zValidator("query", userIdSchema), async (c) => {
     const data = await c.req.valid("query");

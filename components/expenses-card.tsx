@@ -4,14 +4,11 @@ import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Skeleton } from "@nextui-org/skeleton";
 import { useQuery } from "@tanstack/react-query";
 
-import { getTotalSpent } from "@/hono-api/expenses";
+import { getTotalSpentQueryOptions } from "@/api-client/expenses";
 import { formatCurrency } from "@/lib/utils";
 
 export const ExpensesCard = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ["get-total-spent"],
-    queryFn: getTotalSpent,
-  });
+  const { data, isPending } = useQuery(getTotalSpentQueryOptions);
 
   return (
     <Card
@@ -19,7 +16,7 @@ export const ExpensesCard = () => {
       className="dark:bg-default-400/10 min-w-[200px] max-w-xs border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8]"
     >
       <CardHeader>
-        <p className="text-xl font-semibold">Total expend</p>
+        <p className="text-xl font-semibold">Total spent</p>
       </CardHeader>
 
       <CardBody className="pt-0">

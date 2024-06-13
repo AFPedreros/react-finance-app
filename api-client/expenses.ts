@@ -3,7 +3,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { api } from ".";
 
 import { getOrCreateUUID } from "@/lib/utils";
-import { CreateExpense } from "@/types";
+import { CreateExpense, Expense } from "@/types";
 
 const userId = getOrCreateUUID();
 
@@ -60,6 +60,10 @@ export async function deleteExpense({ id }: { id: number }) {
   if (!response.ok) {
     throw new Error("server error");
   }
+
+  const deletedExpense = await response.json();
+
+  return deletedExpense as Expense;
 }
 
 export async function getTotalSpent() {
@@ -75,3 +79,9 @@ export async function getTotalSpent() {
 
   return data;
 }
+
+export const getTotalSpentQueryOptions = queryOptions({
+  queryKey: ["get-total-spent"],
+  queryFn: getTotalSpent,
+  staleTime: 1000 * 60 * 5,
+});
