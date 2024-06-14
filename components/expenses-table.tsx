@@ -11,8 +11,8 @@ import {
 } from "@nextui-org/table";
 import { useQuery } from "@tanstack/react-query";
 
+import { EditExpenseModal } from "./edit-expense-modal";
 import { ExpenseDeleteButton } from "./expense-delete-button";
-import { PenIcon } from "./icons";
 import { LoadingExpensesTable } from "./loading-expenses-table";
 
 import {
@@ -28,7 +28,7 @@ export const ExpensesTable = () => {
     loadingCreateExpenseQueryOptions,
   );
 
-  let expenses = data?.expenses ?? [];
+  let expenses = data ?? [];
 
   if (loadingCreateExpense?.expense) {
     const optimisticExpense = {
@@ -85,13 +85,13 @@ export const ExpensesTable = () => {
               <TableCell className="w-1/4">{expense.date}</TableCell>
               <TableCell className="w-1/4">
                 <div className="relative flex items-center justify-start gap-2">
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    startContent={<PenIcon size={18} />}
-                    variant="flat"
+                  <EditExpenseModal
+                    amount={expense.amount}
+                    date={expense.date}
+                    id={expense.id}
+                    title={expense.title}
                   />
-                  <ExpenseDeleteButton id={expense?.id?.toString() ?? ""} />
+                  <ExpenseDeleteButton id={expense.id?.toString() ?? ""} />
                 </div>
               </TableCell>
             </TableRow>

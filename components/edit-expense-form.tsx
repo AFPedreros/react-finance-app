@@ -4,27 +4,33 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { parseDate } from "@internationalized/date";
 import { Button } from "@nextui-org/button";
 import { DatePicker } from "@nextui-org/date-picker";
+import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { useQueryClient } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { EditExpenseModalProps } from "./edit-expense-modal";
+
 import {
-  createExpense,
   getAllExpensesQueryOptions,
   getTotalSpentQueryOptions,
-  loadingCreateExpenseQueryOptions,
+  updateExpense,
 } from "@/api-client/expenses";
 import { getOrCreateUUID } from "@/lib/utils";
 import { createExpenseSchema } from "@/types";
 
 const formSchema = createExpenseSchema.omit({ userId: true });
 
-export const CreateExpenseForm = () => {
+type EditExpenseFormProps = {
+  expense: EditExpenseModalProps;
+  onClose: () => void;
+};
+
+export const EditExpenseForm = ({ expense, onClose }: EditExpenseFormProps) => {
   const queryClient = useQueryClient();
   const userId = getOrCreateUUID();
-  const today = new Date().toISOString().split("T")[0];
 
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
@@ -35,9 +41,9 @@ export const CreateExpenseForm = () => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      amount: "",
-      date: today,
+      title: expense.title,
+      amount: expense.amount.split(".")[0],
+      date: expense.date,
     },
     mode: "onChange",
   });
@@ -49,40 +55,50 @@ export const CreateExpenseForm = () => {
 
     const data = {
       ...values,
+      id: expense.id,
       userId,
     };
 
-    queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {
-      expense: data,
-    });
-
     try {
-      const newExpense = await createExpense({ values: data });
+      const updatedExpense = await updateExpense({ values: data });
 
-      queryClient.setQueryData(getAllExpensesQueryOptions.queryKey, [
-        newExpense,
-        ...existingExpenses,
-      ]);
+      const newExpenses = existingExpenses.map((item) =>
+        item.id === updatedExpense.id ? updatedExpense : item,
+      );
 
-      toast.success("Expense created!");
+      queryClient.setQueryData(
+        getAllExpensesQueryOptions.queryKey,
+        newExpenses,
+      );
+      queryClient.setQueryData(
+        getTotalSpentQueryOptions.queryKey,
+        (oldTotal) => {
+          const oldExpense = existingExpenses.find(
+            (item) => item.id === updatedExpense.id,
+          );
+          const oldAmount = oldExpense ? Number(oldExpense.amount) : 0;
+          const newAmount = Number(updatedExpense.amount);
+          const newTotal = Number(oldTotal?.total) - oldAmount + newAmount;
+
+          return { total: newTotal.toString() };
+        },
+      );
+
+      toast.success("Expense updated!");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
 
       toast.error(errorMessage);
     } finally {
-      queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {});
-      //ToDo: Make optimistic
-      queryClient.invalidateQueries({
-        queryKey: getTotalSpentQueryOptions.queryKey,
-      });
       reset();
+      onClose();
     }
   }
 
   return (
     <form
-      className="flex flex-col w-full gap-4 p-4 rounded-large shadow-small bg-content1"
+      className="flex flex-col w-full gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Controller
@@ -125,7 +141,7 @@ export const CreateExpenseForm = () => {
         render={() => (
           <DatePicker
             isRequired
-            defaultValue={parseDate(today)}
+            defaultValue={parseDate(expense.date)}
             errorMessage={errors.date?.message}
             isDisabled={isSubmitting}
             isInvalid={!!errors.date && dirtyFields.date}
@@ -134,13 +150,21 @@ export const CreateExpenseForm = () => {
           />
         )}
       />
-      <Button
-        color="primary"
-        isDisabled={!isValid || isSubmitting}
-        type="submit"
-      >
-        Submit
-      </Button>
+      <Divider className="my-2" />
+      <div className="flex items-center justify-end w-full pb-4">
+        <div className="flex gap-2">
+          <Button color="danger" type="button" variant="flat" onPress={onClose}>
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            isDisabled={!isValid || isSubmitting}
+            type="submit"
+          >
+            Save
+          </Button>
+        </div>
+      </div>
     </form>
   );
 };

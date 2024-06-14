@@ -24,12 +24,8 @@ export const ExpenseDeleteButton = ({ id }: { id: string }) => {
 
       queryClient.setQueryData(
         getAllExpensesQueryOptions.queryKey,
-        (existingExpenses) => ({
-          ...existingExpenses,
-          expenses: existingExpenses!.expenses.filter(
-            (expense) => expense.id !== Number(id),
-          ),
-        }),
+        (existingExpenses) =>
+          existingExpenses!.filter((expense) => expense.id !== Number(id)),
       );
 
       queryClient.setQueryData(
@@ -53,7 +49,7 @@ export const ExpenseDeleteButton = ({ id }: { id: string }) => {
       size="sm"
       startContent={!mutation.isPending && <TrashIcon size={18} />}
       variant="flat"
-      onClick={() => mutation.mutate({ id: Number(id) })}
+      onPress={() => mutation.mutate({ id: Number(id) })}
     />
   );
 };

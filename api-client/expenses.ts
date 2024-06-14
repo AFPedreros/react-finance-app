@@ -16,16 +16,39 @@ async function getAllExpenses() {
     throw new Error("Server error");
   }
 
-  const data = await response.json();
+  const expenses = await response.json();
 
-  return data;
+  return expenses;
 }
 
-export const getAllExpensesQueryOptions = queryOptions({
-  queryKey: ["get-all-expenses"],
-  queryFn: getAllExpenses,
-  staleTime: 1000 * 60 * 5,
-});
+export async function getExpense({ id }: { id: number }) {
+  const response = await api.expenses[":id{[0-9]+}"].$get({
+    param: { id: id.toString() },
+    query: { userId },
+  });
+
+  if (!response.ok) {
+    throw new Error("Server error");
+  }
+
+  const expense = await response.json();
+
+  return expense;
+}
+
+export async function getTotalSpent() {
+  const response = await api.expenses["total-spent"].$get({
+    query: { userId },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch total spent");
+  }
+
+  const result = await response.json();
+
+  return result;
+}
 
 export async function createExpense({ values }: { values: CreateExpense }) {
   const response = await api.expenses.$post({
@@ -41,15 +64,22 @@ export async function createExpense({ values }: { values: CreateExpense }) {
   return newExpense;
 }
 
-export const loadingCreateExpenseQueryOptions = queryOptions<{
-  expense?: CreateExpense;
-}>({
-  queryKey: ["loading-create-expense"],
-  queryFn: async () => {
-    return {};
-  },
-  staleTime: Infinity,
-});
+export async function updateExpense({ values }: { values: Expense }) {
+  if (!values.id) throw new Error("No id provided");
+
+  const response = await api.expenses[":id{[0-9]+}"].$patch({
+    param: { id: values.id?.toString() },
+    json: { ...values },
+  });
+
+  if (!response.ok) {
+    throw new Error("server error");
+  }
+
+  const updatedExpense = await response.json();
+
+  return updatedExpense;
+}
 
 export async function deleteExpense({ id }: { id: number }) {
   const response = await api.expenses[":id{[0-9]+}"].$delete({
@@ -63,25 +93,27 @@ export async function deleteExpense({ id }: { id: number }) {
 
   const deletedExpense = await response.json();
 
-  return deletedExpense as Expense;
+  return deletedExpense;
 }
 
-export async function getTotalSpent() {
-  const response = await api.expenses["total-spent"].$get({
-    query: { userId },
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch total spent");
-  }
-
-  const data = await response.json();
-
-  return data;
-}
+export const getAllExpensesQueryOptions = queryOptions({
+  queryKey: ["get-all-expenses"],
+  queryFn: getAllExpenses,
+  staleTime: 1000 * 60 * 5,
+});
 
 export const getTotalSpentQueryOptions = queryOptions({
   queryKey: ["get-total-spent"],
   queryFn: getTotalSpent,
   staleTime: 1000 * 60 * 5,
+});
+
+export const loadingCreateExpenseQueryOptions = queryOptions<{
+  expense?: CreateExpense;
+}>({
+  queryKey: ["loading-create-expense"],
+  queryFn: async () => {
+    return {};
+  },
+  staleTime: Infinity,
 });
