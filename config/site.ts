@@ -5,12 +5,20 @@ export const siteConfig = {
   description: "Track your daily finances.",
   navItems: [
     {
-      label: "My Expenses",
-      href: "/expenses",
+      label: "Transactions",
+      href: "/transactions",
     },
     {
       label: "Create Expense",
       href: "/create-expense",
+    },
+    {
+      label: "Accounts",
+      href: "/accounts",
+    },
+    {
+      label: "Categories",
+      href: "/categories",
     },
   ],
   navMenuItems: [
@@ -48,8 +56,8 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/nextui-org/nextui",
-    twitter: "https://twitter.com/getnextui",
+    github: "https://github.com/afpedreros",
+    twitter: "https://twitter.com/AFelipePedreros",
     docs: "https://nextui.org",
   },
 };

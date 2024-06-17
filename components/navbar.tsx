@@ -1,7 +1,5 @@
 "use client";
 
-import { Input } from "@nextui-org/input";
-import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";
 import {
   NavbarBrand,
@@ -12,73 +10,44 @@ import {
   NavbarMenuToggle,
   Navbar as NextUINavbar,
 } from "@nextui-org/navbar";
-import { cn, link as linkStyles } from "@nextui-org/theme";
-import clsx from "clsx";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-import { GithubIcon, Logo, SearchIcon, TwitterIcon } from "@/components/icons";
+import { SearchInput } from "./search-input";
+
+import { GithubIcon, Logo, TwitterIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="flex-shrink-0 text-base pointer-events-none text-default-400" />
-      }
-      type="search"
-    />
-  );
+  const pathname = usePathname();
 
   return (
-    // <NextUINavbar className="bg-primary" maxWidth="xl" position="sticky">
     <NextUINavbar
       classNames={{
-        base: cn("border-default-100", {
-          "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
-        }),
-        wrapper: "w-full justify-center",
-        item: "hidden md:flex",
+        base: "bg-primary",
+        wrapper: "w-full justify-center ",
+        item: "hidden md:flex text-primary-foreground/75 text-sm data-[active=true]:text-primary-foreground",
       }}
-      height="60px"
+      height="64px"
       isMenuOpen={isMenuOpen}
       maxWidth="xl"
       onMenuOpenChange={setIsMenuOpen}
     >
-      <NavbarBrand as="li" className="gap-3 max-w-fit">
+      <NavbarBrand as="li" className="gap-3 text-primary-foreground max-w-fit">
         <NextLink className="flex items-center justify-start gap-1" href="/">
           <Logo size={34} />
-          <p className="font-medium text-small text-inherit">ACME</p>
+          <p className="font-bold text-small">ACME</p>
         </NextLink>
       </NavbarBrand>
 
-      {/* <NavbarContent className="basis-1/5 sm:basis-full" justify="start"> */}
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="center">
+      <NavbarContent>
         <ul className="justify-start hidden gap-4 ml-2 sm:flex">
           {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <NextLink
-                className={cn(linkStyles({ color: "foreground", size: "sm" }))}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </NextLink>
+            <NavbarItem key={item.href} isActive={pathname === item.href}>
+              <NextLink href={item.href}>{item.label}</NextLink>
             </NavbarItem>
           ))}
         </ul>
@@ -90,26 +59,28 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden gap-2 sm:flex">
           <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
-            <TwitterIcon className="text-default-500" />
+            <TwitterIcon className="text-primary-foreground/75" />
           </Link>
           <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
+            <GithubIcon className="text-primary-foreground/75" />
           </Link>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
+        <NavbarItem className="hidden lg:flex">
+          <SearchInput />
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="pl-4 sm:hidden basis-1" justify="end">
         <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
+          <GithubIcon className="text-primary-foreground/75" />
         </Link>
         <ThemeSwitch />
-        <NavbarMenuToggle />
+        <NavbarMenuToggle className="text-primary-foreground/75" />
       </NavbarContent>
 
       <NavbarMenu>
-        {searchInput}
+        <SearchInput />
         <div className="flex flex-col gap-2 mx-4 mt-2">
           {siteConfig.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
