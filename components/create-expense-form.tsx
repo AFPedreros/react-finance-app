@@ -96,7 +96,7 @@ export const CreateExpenseForm = () => {
             isDisabled={isSubmitting}
             isInvalid={!!errors.title && dirtyFields.title}
             label="Title"
-            placeholder="Cat food"
+            placeholder="e.g. Groceries, Rent, Phone Bill"
             type="text"
             {...field}
           />
