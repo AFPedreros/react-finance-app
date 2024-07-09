@@ -58,6 +58,5 @@ export const siteConfig = {
   links: {
     github: "https://github.com/afpedreros",
     twitter: "https://twitter.com/AFelipePedreros",
-    docs: "https://nextui.org",
   },
 };

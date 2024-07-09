@@ -37,7 +37,7 @@ export const CreateAccountModal = () => {
         <ModalContent>
           {(onClose) => (
             <ModalBody>
-              <ModalHeader className="flex-col items-center gap-1 px-0 text-center">
+              <ModalHeader className="flex-col items-start gap-1 px-0">
                 <h1 className="text-xl">New account.</h1>
                 <p className="font-normal text-small text-default-500">
                   Add the name of your account.

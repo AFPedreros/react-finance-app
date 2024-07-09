@@ -137,6 +137,7 @@ export const CreateExpenseForm = () => {
       <Button
         color="primary"
         isDisabled={!isValid || isSubmitting}
+        isLoading={isSubmitting}
         type="submit"
       >
         Submit

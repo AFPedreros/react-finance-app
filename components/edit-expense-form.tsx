@@ -153,12 +153,20 @@ export const EditExpenseForm = ({ expense, onClose }: EditExpenseFormProps) => {
       <Divider className="my-2" />
       <div className="flex items-center justify-end w-full pb-4">
         <div className="flex gap-2">
-          <Button color="danger" type="button" variant="flat" onPress={onClose}>
+          <Button
+            color="danger"
+            isDisabled={!isValid || isSubmitting}
+            isLoading={isSubmitting}
+            type="button"
+            variant="flat"
+            onPress={onClose}
+          >
             Cancel
           </Button>
           <Button
             color="primary"
             isDisabled={!isValid || isSubmitting}
+            isLoading={isSubmitting}
             type="submit"
           >
             Save
