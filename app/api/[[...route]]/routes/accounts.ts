@@ -1,25 +1,25 @@
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq, sum } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 
 import { db } from "../db";
 
 import { userIdSchema } from "@/lib/schema";
 import {
-  expenses as expensesTable,
-  insertExpensesSchema,
-} from "@/lib/schema/expenses";
-import { createExpenseSchema } from "@/types";
+  accounts as accountsTable,
+  insertAccountsSchema,
+} from "@/lib/schema/accounts";
+import { createAccountSchema } from "@/types";
 
-export const expensesRoute = new Hono()
+export const accountsRoute = new Hono()
   .get("/", zValidator("query", userIdSchema), async (c) => {
     const { userId } = c.req.valid("query");
 
     const expenses = await db
       .select()
-      .from(expensesTable)
-      .where(eq(expensesTable.userId, userId))
-      .orderBy(desc(expensesTable.createdAt))
+      .from(accountsTable)
+      .where(eq(accountsTable.userId, userId))
+      .orderBy(desc(accountsTable.createdAt))
       .limit(100);
 
     return c.json(expenses);
@@ -38,8 +38,8 @@ export const expensesRoute = new Hono()
 
     const [expense] = await db
       .select()
-      .from(expensesTable)
-      .where(and(eq(expensesTable.userId, userId), eq(expensesTable.id, id)));
+      .from(accountsTable)
+      .where(and(eq(accountsTable.userId, userId), eq(accountsTable.id, id)));
 
     if (!expense) {
       return c.json({ error: "Not found" }, 404);
@@ -47,35 +47,20 @@ export const expensesRoute = new Hono()
 
     return c.json(expense);
   })
-  .get("/total-spent", zValidator("query", userIdSchema), async (c) => {
-    const { userId } = c.req.valid("query");
-
-    if (!userId) {
-      return c.json({ error: "Invalid user id" }, 400);
-    }
-
-    const [result] = await db
-      .select({ total: sum(expensesTable.amount) })
-      .from(expensesTable)
-      .where(eq(expensesTable.userId, userId))
-      .limit(1);
-
-    return c.json(result);
-  })
-  .post("/", zValidator("json", createExpenseSchema), async (c) => {
+  .post("/", zValidator("json", createAccountSchema), async (c) => {
     const expense = c.req.valid("json");
-    const validatedExpense = insertExpensesSchema.parse({
+    const validatedExpense = insertAccountsSchema.parse({
       ...expense,
     });
 
     const [newExpense] = await db
-      .insert(expensesTable)
+      .insert(accountsTable)
       .values(validatedExpense)
       .returning();
 
     return c.json(newExpense, 201);
   })
-  .patch("/:id{[0-9]+}", zValidator("json", createExpenseSchema), async (c) => {
+  .patch("/:id{[0-9]+}", zValidator("json", createAccountSchema), async (c) => {
     const expense = c.req.valid("json");
     const id = Number.parseInt(c.req.param("id"));
 
@@ -83,14 +68,14 @@ export const expensesRoute = new Hono()
       return c.json({ error: "Invalid id" }, 400);
     }
 
-    const validatedExpense = insertExpensesSchema.parse({
+    const validatedExpense = insertAccountsSchema.parse({
       ...expense,
     });
 
     const [updatedExpense] = await db
-      .update(expensesTable)
+      .update(accountsTable)
       .set(validatedExpense)
-      .where(eq(expensesTable.id, id))
+      .where(eq(accountsTable.id, id))
       .returning();
 
     if (!updatedExpense) {
@@ -112,8 +97,8 @@ export const expensesRoute = new Hono()
     }
 
     const [expense] = await db
-      .delete(expensesTable)
-      .where(and(eq(expensesTable.userId, userId), eq(expensesTable.id, id)))
+      .delete(accountsTable)
+      .where(and(eq(accountsTable.userId, userId), eq(accountsTable.id, id)))
       .returning();
 
     if (!expense) {

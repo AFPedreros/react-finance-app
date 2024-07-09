@@ -22,7 +22,7 @@ export const expenses = pgTable(
   },
   (expenses) => {
     return {
-      userIdIndex: index("name_idx").on(expenses.userId),
+      userIdIndex: index("expenses_user_id_idx").on(expenses.userId),
     };
   },
 );
