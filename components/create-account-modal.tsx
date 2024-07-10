@@ -2,7 +2,6 @@
 
 import { Button } from "@nextui-org/button";
 import {
-  Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
@@ -10,6 +9,7 @@ import {
 } from "@nextui-org/modal";
 
 import { CreateAccountForm } from "./create-account-form";
+import { Drawer } from "./drawer";
 import { PlusIcon } from "./icons";
 
 export const CreateAccountModal = () => {
@@ -23,22 +23,17 @@ export const CreateAccountModal = () => {
         // disabled={mutation.isPending}
         // isLoading={mutation.isPending}
         size="sm"
-        startContent={<PlusIcon size={18} />}
-        variant="flat"
+        startContent={<PlusIcon className="shrink-0" size={18} />}
         onPress={onOpen}
       >
         Add new
       </Button>
-      <Modal
-        isOpen={isOpen}
-        shouldBlockScroll={false}
-        onOpenChange={onOpenChange}
-      >
+      <Drawer isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <ModalBody>
               <ModalHeader className="flex-col items-start gap-1 px-0">
-                <h1 className="text-xl">New account.</h1>
+                <h2 className="text-xl">New account.</h2>
                 <p className="font-normal text-small text-default-500">
                   Add the name of your account.
                 </p>
@@ -47,7 +42,7 @@ export const CreateAccountModal = () => {
             </ModalBody>
           )}
         </ModalContent>
-      </Modal>
+      </Drawer>
     </>
   );
 };

@@ -1,4 +1,11 @@
-import { index, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  index,
+  numeric,
+  pgTable,
+  serial,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,6 +15,7 @@ export const accounts = pgTable(
     id: serial("id").primaryKey(),
     userId: text("user_id").notNull(),
     name: text("name").notNull(),
+    balance: numeric("balance", { precision: 12, scale: 2 }).notNull(),
     createdAt: timestamp("created_at").defaultNow(),
   },
   (accounts) => {

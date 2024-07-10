@@ -32,6 +32,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      balance: "",
     },
     mode: "onChange",
   });
@@ -93,21 +94,32 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
           />
         )}
       />
+      <Controller
+        control={control}
+        name="balance"
+        render={({ field }) => (
+          <Input
+            fullWidth
+            isRequired
+            errorMessage={errors.balance?.message}
+            isDisabled={isSubmitting}
+            isInvalid={!!errors.balance && dirtyFields.balance}
+            label="Initial balance"
+            startContent={<p className="text-default-400">$</p>}
+            type="number"
+            {...field}
+          />
+        )}
+      />
       <Divider className="my-2" />
-      <div className="flex items-center justify-end w-full pb-4">
-        <div className="flex gap-2">
-          <Button color="danger" type="button" variant="flat" onPress={onClose}>
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            isDisabled={!isValid || isSubmitting}
-            type="submit"
-          >
-            Submit
-          </Button>
-        </div>
-      </div>
+      <Button
+        fullWidth
+        color="primary"
+        isDisabled={!isValid || isSubmitting}
+        type="submit"
+      >
+        Create
+      </Button>
     </form>
   );
 };
