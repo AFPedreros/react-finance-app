@@ -11,12 +11,14 @@ import {
 } from "@nextui-org/table";
 import { useQuery } from "@tanstack/react-query";
 
-import { LoadingExpensesTable } from "./loading-expenses-table";
+import { DeleteAccountButton } from "./delete-account-button";
+import { EditAccountModal } from "./edit-account-modal";
 
 import {
   getAllAccountsQueryOptions,
   loadingCreateAccountQueryOptions,
 } from "@/api-client/accounts";
+import { LoadingTable } from "@/components/loading-table";
 import { accountsColumns } from "@/lib/tableColumns";
 import { formatCurrency } from "@/lib/utils";
 
@@ -39,7 +41,7 @@ export const AccountsTable = () => {
   }
 
   if (isPending) {
-    return <LoadingExpensesTable />;
+    return <LoadingTable columns={accountsColumns} name="Accounts" />;
   }
 
   return (
@@ -81,14 +83,12 @@ export const AccountsTable = () => {
               </TableCell>
               <TableCell className="w-1/4">
                 <div className="relative flex items-center justify-start gap-2">
-                  {/* <EditAccountModal
-                    amount={account.amount}
-                    date={account.date}
+                  <EditAccountModal
+                    balance={account.balance}
                     id={account.id}
-                    title={account.title}
+                    name={account.name}
                   />
-                  <AccountDeleteButton id={account.id?.toString() ?? ""} /> */}
-                  hello
+                  <DeleteAccountButton id={account.id?.toString() ?? ""} />
                 </div>
               </TableCell>
             </TableRow>

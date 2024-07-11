@@ -11,14 +11,14 @@ import {
 } from "@nextui-org/table";
 import { useQuery } from "@tanstack/react-query";
 
+import { DeleteExpenseButton } from "./delete-expense-button";
 import { EditExpenseModal } from "./edit-expense-modal";
-import { ExpenseDeleteButton } from "./expense-delete-button";
-import { LoadingExpensesTable } from "./loading-expenses-table";
 
 import {
   getAllExpensesQueryOptions,
   loadingCreateExpenseQueryOptions,
 } from "@/api-client/expenses";
+import { LoadingTable } from "@/components/loading-table";
 import { expensesColumns } from "@/lib/tableColumns";
 import { formatCurrency } from "@/lib/utils";
 
@@ -41,7 +41,7 @@ export const ExpensesTable = () => {
   }
 
   if (isPending) {
-    return <LoadingExpensesTable />;
+    return <LoadingTable columns={expensesColumns} name="Expenses" />;
   }
 
   return (
@@ -91,7 +91,7 @@ export const ExpensesTable = () => {
                     id={expense.id}
                     title={expense.title}
                   />
-                  <ExpenseDeleteButton id={expense.id?.toString() ?? ""} />
+                  <DeleteExpenseButton id={expense.id?.toString() ?? ""} />
                 </div>
               </TableCell>
             </TableRow>

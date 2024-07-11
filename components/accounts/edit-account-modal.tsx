@@ -9,22 +9,21 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 
-import { EditExpenseForm } from "./edit-expense-form";
-import { PenIcon } from "./icons";
+import { EditAccountForm } from "./edit-account-form";
 
-export type EditExpenseModalProps = {
+import { PenIcon } from "@/components/icons";
+
+export type EditAccountModalProps = {
+  balance: string;
   id: number;
-  title: string;
-  amount: string;
-  date: string;
+  name: string;
 };
 
-export const EditExpenseModal = ({
+export const EditAccountModal = ({
+  balance,
   id,
-  title,
-  amount,
-  date,
-}: EditExpenseModalProps) => {
+  name,
+}: EditAccountModalProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -50,8 +49,8 @@ export const EditExpenseModal = ({
                   Add the details of the expense you want to edit.
                 </p>
               </ModalHeader>
-              <EditExpenseForm
-                expense={{ id, title, amount, date }}
+              <EditAccountForm
+                account={{ balance, id, name }}
                 onClose={onClose}
               />
             </ModalBody>

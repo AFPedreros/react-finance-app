@@ -1,8 +1,10 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 
-import { AccountsTable } from "@/components/accounts-table";
-import { CreateAccountModal } from "@/components/create-account-modal";
+import { AccountsTable } from "@/components/accounts/accounts-table";
+import { CreateAccountModal } from "@/components/accounts/create-account-modal";
 import { subtitle } from "@/components/primitives";
+
+export const dynamic = "force-dynamic";
 
 export default function AccountsPage() {
   return (

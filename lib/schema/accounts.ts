@@ -27,6 +27,9 @@ export const accounts = pgTable(
 
 export const insertAccountsSchema = createInsertSchema(accounts, {
   name: z.string().min(3, { message: "Name must be at least 3 characters" }),
+  balance: z.string().regex(/^\d+(\.\d{1,2})?$/, {
+    message: "The balance must be a valid monetary value",
+  }),
 });
 
 export const selectAccountsSchema = createSelectSchema(accounts);

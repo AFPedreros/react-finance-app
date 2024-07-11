@@ -1,4 +1,4 @@
-import { CreateExpenseForm } from "@/components/create-expense-form";
+import { CreateExpenseForm } from "@/components/expenses/create-expense-form";
 import { title } from "@/components/primitives";
 
 export default function CreateExpensePage() {

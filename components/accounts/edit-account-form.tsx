@@ -9,17 +9,23 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { EditAccountModalProps } from "./edit-account-modal";
+
 import {
-  createAccount,
   getAllAccountsQueryOptions,
-  loadingCreateAccountQueryOptions,
+  updateAccount,
 } from "@/api-client/accounts";
 import { getOrCreateUUID } from "@/lib/utils";
 import { createAccountSchema } from "@/types";
 
 const formSchema = createAccountSchema.omit({ userId: true });
 
-export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
+type EditAccountFormProps = {
+  account: EditAccountModalProps;
+  onClose: () => void;
+};
+
+export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
   const queryClient = useQueryClient();
   const userId = getOrCreateUUID();
 
@@ -31,8 +37,8 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      balance: "",
+      balance: account.balance.split(".")[0],
+      name: account.name,
     },
     mode: "onChange",
   });
@@ -44,29 +50,29 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
 
     const data = {
       ...values,
+      id: account.id,
       userId,
     };
 
-    queryClient.setQueryData(loadingCreateAccountQueryOptions.queryKey, {
-      account: data,
-    });
-
     try {
-      const newAccount = await createAccount({ values: data });
+      const updatedAccount = await updateAccount({ values: data });
 
-      queryClient.setQueryData(getAllAccountsQueryOptions.queryKey, [
-        newAccount,
-        ...existingAccounts,
-      ]);
+      const newAccounts = existingAccounts.map((item) =>
+        item.id === updatedAccount.id ? updatedAccount : item,
+      );
 
-      toast.success("Account created!");
+      queryClient.setQueryData(
+        getAllAccountsQueryOptions.queryKey,
+        newAccounts,
+      );
+
+      toast.success("Account updated!");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
 
       toast.error(errorMessage);
     } finally {
-      queryClient.setQueryData(loadingCreateAccountQueryOptions.queryKey, {});
       reset();
       onClose();
     }
@@ -88,7 +94,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
             isDisabled={isSubmitting}
             isInvalid={!!errors.name && dirtyFields.name}
             label="Name"
-            placeholder="e.g. Cash, Savings, Bank Account"
+            placeholder="Cat food"
             type="text"
             {...field}
           />
@@ -104,7 +110,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
             errorMessage={errors.balance?.message}
             isDisabled={isSubmitting}
             isInvalid={!!errors.balance && dirtyFields.balance}
-            label="Initial balance"
+            label="Balance"
             startContent={<p className="text-default-400">$</p>}
             type="number"
             {...field}
@@ -112,14 +118,28 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
         )}
       />
       <Divider className="my-2" />
-      <Button
-        fullWidth
-        color="primary"
-        isDisabled={!isValid || isSubmitting}
-        type="submit"
-      >
-        Create
-      </Button>
+      <div className="flex items-center justify-end w-full pb-4">
+        <div className="flex gap-2">
+          <Button
+            color="danger"
+            isDisabled={!isValid || isSubmitting}
+            isLoading={isSubmitting}
+            type="button"
+            variant="flat"
+            onPress={onClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            isDisabled={!isValid || isSubmitting}
+            isLoading={isSubmitting}
+            type="submit"
+          >
+            Save
+          </Button>
+        </div>
+      </div>
     </form>
   );
 };

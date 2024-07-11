@@ -30,7 +30,7 @@ export const expenses = pgTable(
 export const insertExpensesSchema = createInsertSchema(expenses, {
   title: z.string().min(3, { message: "Title must be at least 3 characters" }),
   amount: z.string().regex(/^\d+(\.\d{1,2})?$/, {
-    message: "Amount must be a valid monetary value",
+    message: "The amount must be a valid monetary value",
   }),
 });
 

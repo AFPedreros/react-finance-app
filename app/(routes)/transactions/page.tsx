@@ -1,5 +1,5 @@
-import { ExpensesCard } from "@/components/expenses-card";
-import { ExpensesTable } from "@/components/expenses-table";
+import { ExpensesCard } from "@/components/expenses/expenses-card";
+import { ExpensesTable } from "@/components/expenses/expenses-table";
 import { title } from "@/components/primitives";
 
 export default function ExpensesPage() {

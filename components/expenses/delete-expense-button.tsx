@@ -4,15 +4,14 @@ import { Button } from "@nextui-org/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { TrashIcon } from "./icons";
-
 import {
   deleteExpense,
   getAllExpensesQueryOptions,
   getTotalSpentQueryOptions,
 } from "@/api-client/expenses";
+import { TrashIcon } from "@/components/icons";
 
-export const ExpenseDeleteButton = ({ id }: { id: string }) => {
+export const DeleteExpenseButton = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deleteExpense,

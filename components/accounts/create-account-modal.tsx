@@ -9,8 +9,9 @@ import {
 } from "@nextui-org/modal";
 
 import { CreateAccountForm } from "./create-account-form";
-import { Drawer } from "./drawer";
-import { PlusIcon } from "./icons";
+
+import { Drawer } from "@/components/drawer";
+import { PlusIcon } from "@/components/icons";
 
 export const CreateAccountModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
