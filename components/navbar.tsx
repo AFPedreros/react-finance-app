@@ -14,8 +14,6 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { SearchInput } from "./search-input";
-
 import { GithubIcon, Logo, TwitterIcon } from "@/components/icons";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { siteConfig } from "@/config/site";
@@ -66,9 +64,6 @@ export const Navbar = () => {
           </Link>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex">
-          <SearchInput />
-        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent className="pl-4 sm:hidden basis-1" justify="end">
@@ -80,7 +75,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarMenu>
-        <SearchInput />
         <div className="flex flex-col gap-2 mx-4 mt-2">
           {siteConfig.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>

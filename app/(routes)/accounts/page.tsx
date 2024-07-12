@@ -3,6 +3,7 @@ import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { AccountsTable } from "@/components/accounts/accounts-table";
 import { CreateAccountModal } from "@/components/accounts/create-account-modal";
 import { subtitle } from "@/components/primitives";
+import { SearchInput } from "@/components/search-input";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +19,8 @@ export default function AccountsPage() {
 
           <CreateAccountModal />
         </CardHeader>
-        <CardBody>
-          {/* <SearchInput /> */}
+        <CardBody className="space-y-4 ">
+          <SearchInput className="max-w-sm" />
           <AccountsTable />
         </CardBody>
       </Card>

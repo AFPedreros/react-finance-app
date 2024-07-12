@@ -116,9 +116,10 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
         fullWidth
         color="primary"
         isDisabled={!isValid || isSubmitting}
+        isLoading={isSubmitting}
         type="submit"
       >
-        Create
+        {isSubmitting ? "Creating" : "Create"}
       </Button>
     </form>
   );
