@@ -1,1 +1,0 @@
-ALTER TABLE "accounts" ADD COLUMN "balance" numeric(12, 2) NOT NULL;

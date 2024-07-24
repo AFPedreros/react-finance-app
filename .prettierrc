@@ -5,11 +5,26 @@
   "printWidth": 80,
   "useTabs": false,
   "plugins": [
-    "prettier-plugin-tailwindcss",
-    "@ianvs/prettier-plugin-sort-imports"
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
   ],
-  "importOrder": ["^[a-z0-9]", "", "^[./]", "", "^@/(.*)$"],
-  "importOrderSeparation": true,
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^\\/(.*)$",
+    "",
+    "^\\../(.*)$",
+    "",
+    "^[./]",
+    "",
+    "^@api/(.*)$",
+    "",
+    "^@/(.*)$",
+    "",
+    "<TYPES>"
+  ],
   "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "importOrderTypeScriptVersion": "5.0.0"
 }
