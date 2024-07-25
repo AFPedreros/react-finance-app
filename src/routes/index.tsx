@@ -35,7 +35,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-export default function Index() {
+function Index() {
   const { data } = useQuery(getAllAccountsQueryOptions);
 
   // eslint-disable-next-line no-console

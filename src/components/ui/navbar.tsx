@@ -34,7 +34,7 @@ export const Navbar = () => {
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarBrand as="li" className="max-w-fit gap-3 text-primary-foreground">
-        <Link className="flex items-center justify-start gap-1" href="/">
+        <Link className="flex items-center justify-start gap-1" to="/">
           <Logo size={34} />
           <p className="text-small font-bold">ACME</p>
         </Link>
@@ -44,7 +44,7 @@ export const Navbar = () => {
         <ul className="ml-2 hidden justify-start gap-4 sm:flex">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href} isActive={pathname === item.href}>
-              <Link href={item.href}>{item.label}</Link>
+              <Link to={item.href}>{item.label}</Link>
             </NavbarItem>
           ))}
         </ul>

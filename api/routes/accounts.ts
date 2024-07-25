@@ -2,13 +2,13 @@ import { zValidator } from "@hono/zod-validator";
 import { and, desc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 
-import { db } from "../db";
+import { db } from "../../db";
 import {
   accounts as accountsTable,
   createAccountSchema,
   insertAccountsSchema,
   userIdSchema,
-} from "../db/schemas";
+} from "../../db/schemas";
 
 export const accountsRoute = new Hono()
   .get("/", zValidator("query", userIdSchema), async (c) => {

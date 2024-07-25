@@ -1,4 +1,5 @@
 import React from "react";
+import { Toaster } from "sonner";
 
 import { Navbar } from "../ui/navbar";
 
@@ -8,6 +9,7 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
       <Navbar />
       <main className="container mx-auto max-w-7xl flex-grow p-6 md:p-8">
         {children}
+        <Toaster richColors />
       </main>
     </div>
   );

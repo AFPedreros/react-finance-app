@@ -1,5 +1,5 @@
 import { z } from "zod";
 
-import { createAccountSchema } from "../db/schemas";
+import { createAccountSchema } from "../schemas";
 
 export type CreateAccount = z.infer<typeof createAccountSchema>;

@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@api": path.resolve(__dirname, "./api"),
+      "@db": path.resolve(__dirname, "./db"),
     },
   },
   server: {
