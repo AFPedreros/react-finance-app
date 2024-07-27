@@ -19,9 +19,6 @@ export const CreateAccountModal = () => {
       <Button
         className="w-full md:w-fit"
         color="primary"
-        // disabled={mutation.isPending}
-        // isLoading={mutation.isPending}
-        size="sm"
         startContent={<PlusIcon className="shrink-0" size={18} />}
         onPress={onOpen}
       >

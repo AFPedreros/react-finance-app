@@ -1,5 +1,3 @@
-"use client";
-
 import { VisuallyHidden } from "@nextui-org/react";
 import { SwitchProps, useSwitch } from "@nextui-org/switch";
 import clsx from "clsx";
