@@ -4,11 +4,11 @@ export function getOrCreateUUID() {
   let uuid = "";
 
   if (typeof window !== "undefined") {
-    uuid = localStorage.getItem("expenses-user-uuid") ?? "";
+    uuid = localStorage.getItem("user-uuid") ?? "";
 
     if (!uuid) {
       uuid = uuidv4();
-      localStorage.setItem("expenses-user-uuid", uuid);
+      localStorage.setItem("user-uuid", uuid);
     }
   }
 
