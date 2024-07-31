@@ -21,7 +21,11 @@ export const LoadingTable = ({ columns, name }: LoadingTableProps) => {
     <Table removeWrapper aria-label={`${name} table`} color="primary">
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn key={column.key} className="uppercase">
+          <TableColumn
+            key={column.key}
+            align={column.key === "actions" ? "end" : "start"}
+            className="uppercase"
+          >
             {column.label}
           </TableColumn>
         )}
@@ -35,13 +39,11 @@ export const LoadingTable = ({ columns, name }: LoadingTableProps) => {
               {columns.map((column, index) =>
                 index !== columns.length - 1 ? (
                   <TableCell key={column.label} className="w-1/4">
-                    <Skeleton className="w-32 rounded-md">
-                      <div className="h-4 rounded-md bg-default-300" />
-                    </Skeleton>
+                    <Skeleton className="h-4 w-32 rounded-md bg-transparent" />
                   </TableCell>
                 ) : (
                   <TableCell key={column.label} className="w-1/4">
-                    <div className="relative flex items-center justify-start gap-2">
+                    <div className="relative flex items-center justify-end gap-2">
                       <Button isIconOnly isLoading size="sm" />
                       <Button isIconOnly isLoading color="danger" size="sm" />
                     </div>

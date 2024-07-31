@@ -42,10 +42,19 @@ export const AccountsTable = () => {
   }
 
   return (
-    <Table removeWrapper aria-label="Accounts table" color="primary">
+    <Table
+      removeWrapper
+      aria-label="Accounts table"
+      color="primary"
+      selectionMode="multiple"
+    >
       <TableHeader columns={accountsColumns}>
         {(column) => (
-          <TableColumn key={column.key} className="uppercase">
+          <TableColumn
+            key={column.key}
+            align={column.key === "actions" ? "end" : "start"}
+            className="uppercase"
+          >
             {column.label}
           </TableColumn>
         )}
@@ -58,12 +67,10 @@ export const AccountsTable = () => {
           if (index === 0 && loadingCreateAccount?.account) {
             return (
               <TableRow key="optimisticAccount" className="animate-pulse">
-                <TableCell className="w-1/4">{account.name}</TableCell>
-                <TableCell className="w-1/4">
-                  {formatCurrency(account.balance)}
-                </TableCell>
-                <TableCell className="w-1/4">
-                  <div className="relative flex items-center justify-start gap-2">
+                <TableCell>{account.name}</TableCell>
+                <TableCell>{formatCurrency(account.balance)}</TableCell>
+                <TableCell>
+                  <div className="relative flex items-center justify-end gap-2">
                     <Button isIconOnly isLoading size="sm" />
                     <Button isIconOnly isLoading color="danger" size="sm" />
                   </div>
@@ -74,12 +81,10 @@ export const AccountsTable = () => {
 
           return (
             <TableRow key={account.id}>
-              <TableCell className="w-1/4">{account.name}</TableCell>
-              <TableCell className="w-1/4">
-                {formatCurrency(account.balance)}
-              </TableCell>
-              <TableCell className="w-1/4">
-                <div className="relative flex items-center justify-start gap-2">
+              <TableCell>{account.name}</TableCell>
+              <TableCell>{formatCurrency(account.balance)}</TableCell>
+              <TableCell>
+                <div className="relative flex items-center justify-end gap-2">
                   <EditAccountModal
                     balance={account.balance}
                     id={account.id}

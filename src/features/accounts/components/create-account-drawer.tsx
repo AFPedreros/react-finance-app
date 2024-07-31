@@ -17,12 +17,12 @@ export const CreateAccountDrawer = () => {
   return (
     <>
       <Button
-        className="w-full md:w-fit"
+        // className="w-full md:w-fit"
         color="primary"
         startContent={<PlusIcon className="shrink-0" size={18} />}
         onPress={onOpen}
       >
-        Add
+        Add New
       </Button>
       <Drawer isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
