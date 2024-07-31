@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import { Hono } from "hono";
 
 import { db } from "../../db";
@@ -45,6 +45,21 @@ export const accountsRoute = new Hono()
     }
 
     return c.json(expense);
+  })
+  .get("/total", zValidator("query", userIdSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+
+    if (!userId) {
+      return c.json({ error: "Invalid user id" }, 400);
+    }
+
+    const [result] = await db
+      .select({ totalBalance: sum(accountsTable.balance) })
+      .from(accountsTable)
+      .where(eq(accountsTable.userId, userId))
+      .limit(1);
+
+    return c.json(result);
   })
   .post("/", zValidator("json", createAccountSchema), async (c) => {
     const expense = c.req.valid("json");

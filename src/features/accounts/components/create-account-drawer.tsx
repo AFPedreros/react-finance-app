@@ -11,7 +11,7 @@ import { CreateAccountForm } from "./create-account-form";
 import { Drawer } from "@/components/ui/drawer";
 import { PlusIcon } from "@/components/ui/icons";
 
-export const CreateAccountModal = () => {
+export const CreateAccountDrawer = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -22,7 +22,7 @@ export const CreateAccountModal = () => {
         startContent={<PlusIcon className="shrink-0" size={18} />}
         onPress={onOpen}
       >
-        Add new
+        Add
       </Button>
       <Drawer isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

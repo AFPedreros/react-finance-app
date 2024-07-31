@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 import { deleteAccount } from "../api/delete-account";
 import { getAllAccountsQueryOptions } from "../api/get-accounts";
+import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
 
 import { TrashIcon } from "@/components/ui/icons";
 
@@ -14,13 +15,24 @@ export const DeleteAccountButton = ({ id }: { id: string }) => {
     onError: () => {
       toast.error("Error deleting account");
     },
-    onSuccess: () => {
+    onSuccess: (deletedExpense) => {
       toast.success("Account deleted!");
 
       queryClient.setQueryData(
         getAllAccountsQueryOptions.queryKey,
         (existingAccounts) =>
           existingAccounts!.filter((account) => account.id !== Number(id)),
+      );
+
+      queryClient.setQueryData(
+        getTotalBalanceAccountsQueryOptions.queryKey,
+        (oldTotalBalance) => {
+          const newBalance =
+            Number(oldTotalBalance?.totalBalance) -
+            Number(deletedExpense.balance);
+
+          return { totalBalance: newBalance.toString() };
+        },
       );
     },
   });

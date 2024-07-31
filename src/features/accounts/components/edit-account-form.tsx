@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { getAllAccountsQueryOptions } from "../api/get-accounts";
+import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
 import { updateAccount } from "../api/update-account";
 
 import { EditAccountModalProps } from "./edit-account-modal";
@@ -62,6 +63,20 @@ export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
       queryClient.setQueryData(
         getAllAccountsQueryOptions.queryKey,
         newAccounts,
+      );
+      queryClient.setQueryData(
+        getTotalBalanceAccountsQueryOptions.queryKey,
+        (oldTotalBalance) => {
+          const oldAccount = existingAccounts.find(
+            (item) => item.id === updatedAccount.id,
+          );
+          const oldBalance = oldAccount ? Number(oldAccount.balance) : 0;
+          const newBalance = Number(updatedAccount.balance);
+          const newTotal =
+            Number(oldTotalBalance?.totalBalance) - oldBalance + newBalance;
+
+          return { totalBalance: newTotal.toString() };
+        },
       );
 
       toast.success("Account updated!");

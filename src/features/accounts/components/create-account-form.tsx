@@ -10,6 +10,7 @@ import {
   loadingCreateAccountQueryOptions,
 } from "../api/create-account";
 import { getAllAccountsQueryOptions } from "../api/get-accounts";
+import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
 
 import { createAccountSchema } from "@db/schemas";
 
@@ -54,6 +55,18 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
         newAccount,
         ...existingAccounts,
       ]);
+
+      const totalBalance =
+        parseFloat(newAccount.balance) +
+        existingAccounts.reduce(
+          (acc, account) => acc + parseFloat(account.balance),
+          0,
+        );
+
+      queryClient.setQueryData(getTotalBalanceAccountsQueryOptions.queryKey, {
+        totalBalance: totalBalance.toString(),
+      });
+
       reset();
       onClose();
       toast.success("Account created!");
