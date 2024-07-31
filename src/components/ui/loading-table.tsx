@@ -18,7 +18,12 @@ type LoadingTableProps = {
 
 export const LoadingTable = ({ columns, name }: LoadingTableProps) => {
   return (
-    <Table removeWrapper aria-label={`${name} table`} color="primary">
+    <Table
+      removeWrapper
+      aria-label={`${name} table`}
+      color="primary"
+      selectionMode="multiple"
+    >
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn
