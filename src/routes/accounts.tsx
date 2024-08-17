@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { AccountsLayout } from "@/components/layouts/accounts-layout";
+import { AccountsLayout } from "@/components/layouts";
 import { SearchInput } from "@/components/ui/search-input";
 import { AccountsTable } from "@/features/accounts/components/accounts-table";
 import { CreateAccountDrawer } from "@/features/accounts/components/create-account-drawer";
