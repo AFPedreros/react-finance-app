@@ -6,7 +6,7 @@ export const expensesColumns = [
 ];
 
 export const accountsColumns = [
-  { key: "name", label: "name" },
-  { key: "balance", label: "balance" },
+  { key: "name", label: "name", sortable: true },
+  { key: "balance", label: "balance", sortable: true },
   { key: "actions", label: "actions" },
 ];

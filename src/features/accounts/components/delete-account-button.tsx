@@ -8,7 +8,15 @@ import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-ac
 
 import { TrashIcon } from "@/components/ui/icons";
 
-export const DeleteAccountButton = ({ id }: { id: string }) => {
+type DeleteAccountButtonProps = {
+  id: string;
+  isLoading?: boolean;
+};
+
+export const DeleteAccountButton = ({
+  id,
+  isLoading,
+}: DeleteAccountButtonProps) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deleteAccount,
@@ -37,14 +45,16 @@ export const DeleteAccountButton = ({ id }: { id: string }) => {
     },
   });
 
+  const loading = isLoading || mutation.isPending;
+
   return (
     <Button
       isIconOnly
       color="danger"
-      disabled={mutation.isPending}
-      isLoading={mutation.isPending}
+      disabled={loading}
+      isLoading={loading}
       size="sm"
-      startContent={!mutation.isPending && <TrashIcon size={18} />}
+      startContent={!loading && <TrashIcon size={18} />}
       variant="flat"
       onPress={() => mutation.mutate({ id: Number(id) })}
     />

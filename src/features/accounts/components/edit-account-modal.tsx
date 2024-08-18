@@ -14,12 +14,14 @@ import { PenIcon } from "@/components/ui/icons";
 export type EditAccountModalProps = {
   balance: string;
   id: number;
+  isLoading?: boolean;
   name: string;
 };
 
 export const EditAccountModal = ({
   balance,
   id,
+  isLoading,
   name,
 }: EditAccountModalProps) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -28,8 +30,10 @@ export const EditAccountModal = ({
     <>
       <Button
         isIconOnly
+        disabled={isLoading}
+        isLoading={isLoading}
         size="sm"
-        startContent={<PenIcon size={18} />}
+        startContent={!isLoading && <PenIcon size={18} />}
         variant="flat"
         onPress={onOpen}
       />
