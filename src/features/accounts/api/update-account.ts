@@ -1,4 +1,5 @@
-import { Account } from "@/db/types/account";
+import { Account } from "@db/types/account";
+
 import { api } from "@/lib/api-client";
 
 export async function updateAccount({ values }: { values: Account }) {

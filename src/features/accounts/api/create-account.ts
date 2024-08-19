@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
-import { CreateAccount } from "@/db/types/account";
+import { CreateAccount } from "@db/types/account";
+
 import { api } from "@/lib/api-client";
 
 export async function createAccount({ values }: { values: CreateAccount }) {
