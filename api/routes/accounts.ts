@@ -14,6 +14,8 @@ export const accountsRoute = new Hono()
   .get("/", zValidator("query", userIdSchema), async (c) => {
     const { userId } = c.req.valid("query");
 
+    console.log("DB", db);
+
     const expenses = await db
       .select()
       .from(accountsTable)
