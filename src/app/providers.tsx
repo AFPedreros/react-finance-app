@@ -1,13 +1,35 @@
 "use client";
 
 import { NextUIProvider } from "@nextui-org/system";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  isServer,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
+
+function makeQueryClient() {
+  return new QueryClient();
+}
+
+let browserQueryClient: QueryClient | undefined = undefined;
+
+function getQueryClient() {
+  if (isServer) {
+    return makeQueryClient();
+  } else {
+    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+
+    return browserQueryClient;
+  }
+}
 
 export type ProvidersProps = {
   children: React.ReactNode;
@@ -15,13 +37,17 @@ export type ProvidersProps = {
 };
 
 export function Providers({ children, themeProps }: ProvidersProps) {
+  const queryClient = getQueryClient();
   const router = useRouter();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <NextUIProvider navigate={router.push}>
-        <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
-      </NextUIProvider>
+      <ReactQueryStreamedHydration>
+        <NextUIProvider navigate={router.push}>
+          <NextThemesProvider {...themeProps}>{children}</NextThemesProvider>
+        </NextUIProvider>
+      </ReactQueryStreamedHydration>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

@@ -6,10 +6,7 @@ import { helloRoute } from "../(routes)/hello";
 
 // import { accountsRoute } from "./routes/accounts";
 
-export const config = {
-  runtime: "edge",
-};
-
+export const runtime = "edge";
 const app = new Hono();
 
 app.use("*", logger());
@@ -25,5 +22,4 @@ export const PUT = GET;
 export const PATCH = GET;
 export const DELETE = GET;
 
-export default app as never;
 export type ApiRoutes = typeof apiRoutes;
