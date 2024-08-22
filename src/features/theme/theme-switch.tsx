@@ -38,7 +38,7 @@ export function ThemeSwitch({ className, classNames }: ThemeSwitchProps) {
     <Component
       {...getBaseProps({
         className: clsx(
-          "px-px transition-opacity hover:opacity-80 cursor-pointer",
+          "px-px transition-opacity  hover:opacity-80 cursor-pointer",
           className,
           classNames?.base,
         ),
@@ -67,9 +67,9 @@ export function ThemeSwitch({ className, classNames }: ThemeSwitchProps) {
         })}
       >
         {!isSelected || isSSR ? (
-          <SunFilledIcon size={22} />
+          <SunFilledIcon className="text-primary-foreground/75" size={22} />
         ) : (
-          <MoonFilledIcon size={22} />
+          <MoonFilledIcon className="text-primary-foreground/75" size={22} />
         )}
       </div>
     </Component>
