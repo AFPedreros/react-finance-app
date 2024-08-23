@@ -11,9 +11,7 @@ import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experime
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { useRouter } from "next/navigation";
-import * as React from "react";
-
-// const queryClient = new QueryClient();
+import { ReactNode } from "react";
 
 function makeQueryClient() {
   return new QueryClient();
@@ -32,7 +30,7 @@ function getQueryClient() {
 }
 
 export type ProvidersProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   themeProps?: ThemeProviderProps;
 };
 

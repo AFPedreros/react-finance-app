@@ -1,6 +1,6 @@
 import "@/styles/index.css";
 
-import * as React from "react";
+import { ReactNode } from "react";
 import { Toaster } from "sonner";
 
 import { Providers } from "../providers";
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html suppressHydrationWarning lang="en">

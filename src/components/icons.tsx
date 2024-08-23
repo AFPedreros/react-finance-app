@@ -1,13 +1,8 @@
-import * as React from "react";
+import { FC } from "react";
 
 import { IconSvgProps } from "@/types";
 
-const Logo: React.FC<IconSvgProps> = ({
-  size = 36,
-  width,
-  height,
-  ...props
-}) => (
+const Logo: FC<IconSvgProps> = ({ size = 36, width, height, ...props }) => (
   <svg
     fill="none"
     height={size || height}
@@ -24,7 +19,7 @@ const Logo: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const NextJSLogo: React.FC<IconSvgProps> = ({
+const NextJSLogo: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -53,12 +48,7 @@ const NextJSLogo: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const HonoLogo: React.FC<IconSvgProps> = ({
-  size = 24,
-  width,
-  height,
-  ...props
-}) => (
+const HonoLogo: FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => (
   <svg
     aria-hidden="true"
     focusable="false"
@@ -80,7 +70,7 @@ const HonoLogo: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const GithubIcon: React.FC<IconSvgProps> = ({
+const GithubIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -100,7 +90,7 @@ const GithubIcon: React.FC<IconSvgProps> = ({
     />
   </svg>
 );
-const SunFilledIcon: React.FC<IconSvgProps> = ({
+const SunFilledIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -122,7 +112,7 @@ const SunFilledIcon: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const MoonFilledIcon: React.FC<IconSvgProps> = ({
+const MoonFilledIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -144,7 +134,7 @@ const MoonFilledIcon: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const TwitterIcon: React.FC<IconSvgProps> = ({
+const TwitterIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -163,7 +153,7 @@ const TwitterIcon: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const SearchIcon: React.FC<IconSvgProps> = ({ ...props }) => (
+const SearchIcon: FC<IconSvgProps> = ({ ...props }) => (
   <svg
     aria-hidden="true"
     fill="none"
@@ -191,12 +181,7 @@ const SearchIcon: React.FC<IconSvgProps> = ({ ...props }) => (
   </svg>
 );
 
-const PlusIcon: React.FC<IconSvgProps> = ({
-  size = 24,
-  width,
-  height,
-  ...props
-}) => (
+const PlusIcon: FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => (
   <svg
     height={size || height}
     role="presentation"
@@ -212,7 +197,7 @@ const PlusIcon: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const TrashIcon: React.FC<IconSvgProps> = ({
+const TrashIcon: FC<IconSvgProps> = ({
   size = 24,
   width,
   height,
@@ -236,12 +221,7 @@ const TrashIcon: React.FC<IconSvgProps> = ({
   </svg>
 );
 
-const PenIcon: React.FC<IconSvgProps> = ({
-  size = 24,
-  width,
-  height,
-  ...props
-}) => (
+const PenIcon: FC<IconSvgProps> = ({ size = 24, width, height, ...props }) => (
   <svg
     height={size || height}
     role="presentation"
