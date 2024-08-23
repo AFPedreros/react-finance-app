@@ -1,15 +1,15 @@
 "use client";
 
 import { cn } from "@nextui-org/theme";
-import * as React from "react";
+import { ReactNode, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 export default function AppLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
-  const [isCollapsed, setIsCollapsed] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const isCompact = isCollapsed || isMobile;
