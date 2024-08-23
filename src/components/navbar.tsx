@@ -22,6 +22,8 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  const isHome = pathname === "/";
+
   return (
     <NextUINavbar
       classNames={{
@@ -41,15 +43,17 @@ export function Navbar() {
         </NextLink>
       </NavbarBrand>
 
-      <NavbarContent>
-        <ul className="ml-2 hidden justify-start gap-4 sm:flex">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href} isActive={pathname === item.href}>
-              <NextLink href={item.href}>{item.label}</NextLink>
-            </NavbarItem>
-          ))}
-        </ul>
-      </NavbarContent>
+      {isHome && (
+        <NavbarContent>
+          <ul className="ml-2 hidden justify-start gap-4 sm:flex">
+            {siteConfig.navItems.map((item) => (
+              <NavbarItem key={item.href} isActive={pathname === item.href}>
+                <NextLink href={item.href}>{item.label}</NextLink>
+              </NavbarItem>
+            ))}
+          </ul>
+        </NavbarContent>
+      )}
 
       <NavbarContent
         className="hidden basis-1/5 sm:flex sm:basis-full"
