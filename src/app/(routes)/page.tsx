@@ -8,7 +8,7 @@ import { CreateHello } from "@/features/hello/components/update-hello-form";
 
 export default async function Home() {
   return (
-    <div className="mx-auto flex h-full max-w-2xl flex-col items-center justify-center gap-6">
+    <div className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center gap-6">
       <div className="flex gap-8">
         <NextJSLogo className="h-24 w-auto text-black duration-300 hover:drop-shadow-[0_0_2rem_#61DAFB] dark:text-white" />
         <HonoLogo className="h-24 w-auto text-black duration-300 hover:drop-shadow-[0_0_2rem_#FF5B11] dark:text-white" />
@@ -29,8 +29,10 @@ export default async function Home() {
           Github
         </Button>
 
-        <ServerHello />
-        <ClientHello />
+        <div className="flex flex-col items-center">
+          <ServerHello />
+          <ClientHello />
+        </div>
         <CreateHello />
       </div>
       <p className="text-center text-tiny text-foreground-400">
