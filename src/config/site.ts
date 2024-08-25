@@ -1,3 +1,10 @@
+import {
+  AccountsIcon,
+  CategoriesIcon,
+  ReportsIcon,
+  TransactionsIcon,
+} from "@/components/icons";
+
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
@@ -5,20 +12,24 @@ export const siteConfig = {
   description: "Track your daily finances.",
   navItems: [
     {
-      label: "Transactions",
-      href: "/transactions",
-    },
-    {
-      label: "Create Expense",
-      href: "/create-expense",
-    },
-    {
       label: "Accounts",
       href: "/accounts",
+      icon: AccountsIcon,
     },
     {
       label: "Categories",
       href: "/categories",
+      icon: CategoriesIcon,
+    },
+    {
+      label: "Reports",
+      href: "/reports",
+      icon: ReportsIcon,
+    },
+    {
+      label: "Transactions",
+      href: "/transactions",
+      icon: TransactionsIcon,
     },
   ],
   navMenuItems: [
