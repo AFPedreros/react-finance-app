@@ -33,7 +33,7 @@ export function Navbar() {
       }}
       height="64px"
       isMenuOpen={isMenuOpen}
-      maxWidth="xl"
+      maxWidth={!isHome ? "full" : "xl"}
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarBrand as="li" className="max-w-fit gap-3 text-primary-foreground">
