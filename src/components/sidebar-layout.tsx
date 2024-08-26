@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@nextui-org/theme";
-import { ReactNode, useEffect, useState } from "react";
-import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { ReactNode } from "react";
 
+import { useSidebarStore } from "@/app/stores/sidebar";
 import { Sidebar } from "@/components/sidebar";
 
 type AppLayoutProps = {
@@ -15,23 +15,16 @@ export function SidebarLayout({
   children,
   defaultIsCollapsed,
 }: AppLayoutProps) {
-  const [isCollapsed, setIsCollapsed] = useState(defaultIsCollapsed);
-  const isMobile = useMediaQuery("(max-width: 768px)");
-
-  const isCompact = isCollapsed || isMobile;
-
-  useEffect(() => {
-    document.cookie = `isCollapsed=${isCollapsed}`;
-  }, [isCollapsed]);
+  const [isCollapsed] = useSidebarStore((state) => [state.isCollapsed]);
 
   return (
     <div className="flex w-full">
-      <Sidebar isCompact={isCompact} setIsCollapsed={setIsCollapsed} />
+      <Sidebar isCollapsed={isCollapsed ?? defaultIsCollapsed} />
 
       <div
         className={cn(
-          "w-full flex-1 pl-16 transition-all duration-300 md:pl-72",
-          { "md:pl-16": isCompact },
+          "w-full flex-1 pl-0 transition-all duration-300 md:pl-72",
+          { "md:pl-16": isCollapsed ?? defaultIsCollapsed },
         )}
       >
         {children}
