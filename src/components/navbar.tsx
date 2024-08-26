@@ -10,6 +10,7 @@ import {
   NavbarMenuToggle,
   Navbar as NextUINavbar,
 } from "@nextui-org/navbar";
+import { cn } from "@nextui-org/theme";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +30,7 @@ export function Navbar() {
       classNames={{
         base: "bg-primary",
         wrapper: "w-full justify-center",
-        item: "hidden md:flex text-primary-foreground/75 text-sm data-[active=true]:text-primary-foreground",
+        item: "hidden sm:flex text-primary-foreground/75 text-sm data-[active=true]:text-primary-foreground",
       }}
       height="64px"
       isMenuOpen={isMenuOpen}
@@ -71,6 +72,9 @@ export function Navbar() {
       </NavbarContent>
 
       <NavbarContent className="basis-1 pl-4 sm:hidden" justify="end">
+        <Link isExternal aria-label="Twitter" href={siteConfig.links.twitter}>
+          <TwitterIcon className="text-primary-foreground/75" />
+        </Link>
         <Link isExternal aria-label="Github" href={siteConfig.links.github}>
           <GithubIcon className="text-primary-foreground/75" />
         </Link>
@@ -82,19 +86,14 @@ export function Navbar() {
         <div className="mx-4 mt-2 flex flex-col gap-2">
           {siteConfig.navItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
+              <NextLink
+                className={cn("text-large", {
+                  "text-primary": pathname === item.href,
+                })}
+                href={item.href}
               >
                 {item.label}
-              </Link>
+              </NextLink>
             </NavbarMenuItem>
           ))}
         </div>

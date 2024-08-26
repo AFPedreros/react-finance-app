@@ -4,44 +4,51 @@ import { Button } from "@nextui-org/button";
 import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
 import { cn } from "@nextui-org/theme";
 import { Tooltip } from "@nextui-org/tooltip";
+import { useCookies } from "next-client-cookies";
 import { usePathname, useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
 
 import { CompactSidebarIcon, ExpandSidebarIcon } from "./icons";
 
+import { useSidebarStore } from "@/app/stores/sidebar";
 import { siteConfig } from "@/config/site";
 
 type SidebarProps = {
-  isCompact: boolean;
-  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
+  isCollapsed: boolean;
 };
 
-export function Sidebar({ isCompact, setIsCollapsed }: SidebarProps) {
+export function Sidebar({ isCollapsed }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const cookies = useCookies();
+  const setIsCollapsed = useSidebarStore((state) => state.setIsCollapsed);
+
+  function handleToggleSidebar() {
+    setIsCollapsed(!isCollapsed);
+    cookies.set("isCollapsed", String(!isCollapsed));
+  }
 
   return (
     <aside
       className={cn(
-        "fixed flex h-[calc(100dvh-4rem)] w-72 flex-col gap-y-4 border-r-small border-divider p-6 transition-width",
+        "fixed hidden h-[calc(100dvh-4rem)] w-72 flex-col gap-y-4 border-r-small border-divider p-6 transition-width md:flex",
         {
-          "w-16 items-center px-2 py-6": isCompact,
+          "w-16 items-center px-2 py-6": isCollapsed,
         },
       )}
     >
       <Tooltip
         showArrow
-        content={`${isCompact ? "Expand" : "Compact"} sidebar`}
+        content={`${isCollapsed ? "Expand" : "Collapse"} sidebar`}
         placement="right"
       >
         <Button
           isIconOnly
-          className="w-fit"
+          className="hidden w-fit md:flex"
           size="sm"
           variant="ghost"
-          onPress={() => setIsCollapsed((prev) => !prev)}
+          onPress={handleToggleSidebar}
         >
-          {isCompact ? (
+          {isCollapsed ? (
             <ExpandSidebarIcon size={20} />
           ) : (
             <CompactSidebarIcon size={20} />
@@ -56,7 +63,7 @@ export function Sidebar({ isCompact, setIsCollapsed }: SidebarProps) {
       >
         <ListboxSection
           classNames={{ group: "space-y-2" }}
-          title={isCompact ? "" : "Platform"}
+          title={isCollapsed ? "" : "Platform"}
         >
           {siteConfig.navItems.map((item) => (
             <ListboxItem
@@ -68,12 +75,12 @@ export function Sidebar({ isCompact, setIsCollapsed }: SidebarProps) {
                     pathname === item.href,
                 },
               )}
-              startContent={isCompact ? null : <item.icon />}
+              startContent={isCollapsed ? null : <item.icon />}
               textValue={item.label}
-              title={isCompact ? null : item.label}
+              title={isCollapsed ? null : item.label}
               variant="flat"
             >
-              {isCompact ? (
+              {isCollapsed ? (
                 <Tooltip showArrow content={item.label} placement="right">
                   <div className="flex w-full items-center justify-center">
                     <item.icon />

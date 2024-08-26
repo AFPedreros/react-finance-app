@@ -1,3 +1,4 @@
+import { CookiesProvider } from "next-client-cookies/server";
 import { cookies } from "next/headers";
 import { ReactNode } from "react";
 
@@ -15,8 +16,10 @@ export default function AppLayout({
     : false;
 
   return (
-    <SidebarLayout defaultIsCollapsed={defaultIsCollapsed}>
-      {children}
-    </SidebarLayout>
+    <CookiesProvider>
+      <SidebarLayout defaultIsCollapsed={defaultIsCollapsed}>
+        {children}
+      </SidebarLayout>
+    </CookiesProvider>
   );
 }
