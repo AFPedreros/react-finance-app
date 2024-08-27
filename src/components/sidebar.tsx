@@ -30,67 +30,77 @@ export function Sidebar({ isCollapsed }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "fixed hidden h-[calc(100dvh-4rem)] w-72 flex-col gap-y-4 border-r-small border-divider p-6 transition-width md:flex",
+        "group fixed hidden h-[calc(100dvh-4rem)] w-72 border-r-small border-divider transition-width md:block",
         {
-          "w-16 items-center px-2 py-6": isCollapsed,
+          "w-16": isCollapsed,
         },
       )}
     >
-      <Tooltip
-        showArrow
-        content={`${isCollapsed ? "Expand" : "Collapse"} sidebar`}
-        placement="right"
+      <div
+        className={cn("relative h-full w-full flex-col gap-y-4 p-6 md:flex", {
+          "items-center px-2 py-6": isCollapsed,
+        })}
       >
-        <Button
-          isIconOnly
-          className="hidden w-fit md:flex"
-          size="sm"
-          variant="ghost"
-          onPress={handleToggleSidebar}
+        <Tooltip
+          showArrow
+          closeDelay={0}
+          content={`${isCollapsed ? "Expand" : "Collapse"} sidebar`}
+          placement="right"
         >
-          {isCollapsed ? (
-            <ExpandSidebarIcon size={20} />
-          ) : (
-            <CompactSidebarIcon size={20} />
-          )}
-        </Button>
-      </Tooltip>
+          <Button
+            isIconOnly
+            className="absolute right-0 top-6 z-30 w-fit -translate-y-1/2 translate-x-1/2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            size="sm"
+            variant="light"
+            onPress={handleToggleSidebar}
+          >
+            {isCollapsed ? (
+              <ExpandSidebarIcon size={18} />
+            ) : (
+              <CompactSidebarIcon size={18} />
+            )}
+          </Button>
+        </Tooltip>
 
-      <Listbox
-        aria-label="Main navigation"
-        classNames={{ base: "p-0", list: "gap-1" }}
-        onAction={(key) => router.push(key.toString())}
-      >
-        <ListboxSection
-          classNames={{ group: "space-y-2" }}
-          title={isCollapsed ? "" : "Platform"}
+        <Listbox
+          aria-label="Main navigation"
+          classNames={{ base: "p-0", list: "gap-1" }}
+          onAction={(key) => router.push(key.toString())}
         >
-          {siteConfig.navItems.map((item) => (
-            <ListboxItem
-              key={item.href}
-              className={cn(
-                "min-h-11 rounded-large transition-colors duration-300",
-                {
-                  "bg-primary/20 text-primary data-[hover=true]:bg-primary/20 data-[hover=true]:text-primary":
-                    pathname === item.href,
-                },
-              )}
-              startContent={isCollapsed ? null : <item.icon />}
-              textValue={item.label}
-              title={isCollapsed ? null : item.label}
-              variant="flat"
-            >
-              {isCollapsed ? (
-                <Tooltip showArrow content={item.label} placement="right">
-                  <div className="flex w-full items-center justify-center">
-                    <item.icon />
-                  </div>
-                </Tooltip>
-              ) : null}
-            </ListboxItem>
-          ))}
-        </ListboxSection>
-      </Listbox>
+          <ListboxSection
+            classNames={{ group: "space-y-2" }}
+            title={isCollapsed ? "" : "Platform"}
+          >
+            {siteConfig.navItems.map((item) => (
+              <ListboxItem
+                key={item.href}
+                className={cn(
+                  "group/item min-h-11 rounded-large transition-colors",
+                  {
+                    "bg-primary/20 text-primary data-[hover=true]:bg-primary/20 data-[hover=true]:text-primary":
+                      pathname === item.href,
+                  },
+                )}
+                startContent={isCollapsed ? null : <item.icon />}
+                textValue={item.label}
+                variant="flat"
+              >
+                {isCollapsed ? (
+                  <Tooltip showArrow content={item.label} placement="right">
+                    <div className="flex w-full items-center justify-center">
+                      <item.icon />
+                    </div>
+                  </Tooltip>
+                ) : (
+                  <span className="transition-all duration-300 ease-in-out group-hover/item:ml-1">
+                    {item.label}
+                  </span>
+                )}
+              </ListboxItem>
+            ))}
+          </ListboxSection>
+        </Listbox>
+      </div>
     </aside>
   );
 }
