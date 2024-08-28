@@ -20,6 +20,7 @@ export function CreateHello() {
     defaultValues: {
       message: "",
     },
+    mode: "onChange",
   });
 
   async function onSubmit(values: UpdateHelloForm) {
