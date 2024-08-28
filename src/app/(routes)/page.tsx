@@ -6,7 +6,7 @@ import { ClientHello } from "@/features/hello/components/client-hello";
 import { ServerHello } from "@/features/hello/components/server-hello";
 import { CreateHello } from "@/features/hello/components/update-hello-form";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center gap-6">
       <div className="flex gap-8">
