@@ -18,9 +18,9 @@ const apiRoutes = app.basePath("/api").route("/hello", helloRoute);
 app.all("*", (c) => c.text("404: Not Found"));
 
 export const GET = handle(app);
-export const POST = GET;
-export const PUT = GET;
-export const PATCH = GET;
-export const DELETE = GET;
+export const POST = handle(app);
+export const PUT = handle(app);
+export const PATCH = handle(app);
+export const DELETE = handle(app);
 
 export type ApiRoutes = typeof apiRoutes;
