@@ -24,4 +24,6 @@ export const PUT = handle(app);
 export const PATCH = handle(app);
 export const DELETE = handle(app);
 
+export default app;
+
 export type ApiRoutes = typeof apiRoutes;
