@@ -7,13 +7,12 @@ import { api } from "@/lib/api-client";
 export async function getHello(message: string) {
   const response = await api.hello.$get({ query: { message } });
 
-  console.log("response", response);
-
   // if (!response.ok) {
   //   throw new Error("Server error");
   // }
 
-  // const data = await response.json();
+  const data = await response.json();
+  console.log("data", data);
 
   return { message: `${message} Hello from Hono!` };
 }
