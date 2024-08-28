@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
 
@@ -31,7 +33,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center">
           <ServerHello />
-          {/* <ClientHello /> */}
+          <ClientHello />
         </div>
         <CreateHello />
       </div>
