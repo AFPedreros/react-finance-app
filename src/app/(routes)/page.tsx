@@ -30,8 +30,8 @@ export default function Home() {
         </Button>
 
         <div className="flex flex-col items-center">
-          <ServerHello />
-          <ClientHello />
+          {/* <ServerHello /> */}
+          {/* <ClientHello /> */}
         </div>
         <CreateHello />
       </div>
