@@ -1,7 +1,6 @@
-"use client";
-
 import { Button } from "@nextui-org/button";
 import { Link } from "@nextui-org/link";
+import { Suspense } from "react";
 
 import { GithubIcon, HonoLogo, NextJSLogo } from "@/components/icons";
 import { ClientHello } from "@/features/hello/components/client-hello";
@@ -32,8 +31,10 @@ export default function Home() {
         </Button>
 
         <div className="flex flex-col items-center">
-          <ServerHello />
-          <ClientHello />
+          <Suspense fallback={<>Loading...</>}>
+            <ServerHello />
+            <ClientHello />
+          </Suspense>
         </div>
         <CreateHello />
       </div>
