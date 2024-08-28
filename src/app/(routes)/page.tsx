@@ -31,7 +31,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center">
           <ServerHello />
-          <ClientHello />
+          {/* <ClientHello /> */}
         </div>
         <CreateHello />
       </div>
