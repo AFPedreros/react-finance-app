@@ -7,6 +7,7 @@ import { helloRoute } from "./hello";
 // import { accountsRoute } from "./routes/accounts";
 
 export const runtime = "edge";
+
 const app = new Hono();
 
 app.use("*", logger());
