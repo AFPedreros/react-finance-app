@@ -12,7 +12,8 @@
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "next/core-web-vitals"
   ],
   "ignorePatterns": [
     "dist",

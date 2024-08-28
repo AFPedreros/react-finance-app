@@ -11,7 +11,8 @@ const app = new Hono();
 
 app.use("*", logger());
 
-export const apiRoutes = app.basePath("/api").route("/hello", helloRoute);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const apiRoutes = app.basePath("/api").route("/hello", helloRoute);
 // .route("/accounts", accountsRoute);
 
 app.all("*", (c) => c.text("404: Not Found"));
