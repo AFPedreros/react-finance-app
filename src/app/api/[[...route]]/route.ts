@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { handle } from "hono/vercel";
 
-import { helloRoute } from "../(routes)/hello";
+import { helloRoute } from "./hello";
 
 // import { accountsRoute } from "./routes/accounts";
 
