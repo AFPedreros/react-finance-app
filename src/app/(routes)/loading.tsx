@@ -5,8 +5,8 @@ export default function Loading() {
         <svg
           aria-hidden="true"
           className="fill-muted text-muted-foreground h-8 w-8 animate-spin"
-          viewBox="0 0 100 101"
           fill="none"
+          viewBox="0 0 100 101"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

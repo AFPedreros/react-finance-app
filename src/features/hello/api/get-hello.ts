@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { UseHelloOptions } from "../types";
 
@@ -37,7 +37,7 @@ export const getLoadingCreateHelloQueryOptions = () => {
 };
 
 export function useHello({ queryConfig, message }: UseHelloOptions) {
-  return useSuspenseQuery({
+  return useQuery({
     ...getHelloQueryOptions(message),
     ...queryConfig,
   });
