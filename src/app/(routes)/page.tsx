@@ -3,7 +3,6 @@ import { Link } from "@nextui-org/link";
 
 import { GithubIcon, HonoLogo, NextJSLogo } from "@/components/icons";
 import { ClientHello } from "@/features/hello/components/client-hello";
-import { ServerHello } from "@/features/hello/components/server-hello";
 import { CreateHello } from "@/features/hello/components/update-hello-form";
 
 export default function Home() {

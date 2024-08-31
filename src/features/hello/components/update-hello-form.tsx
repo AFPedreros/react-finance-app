@@ -48,7 +48,6 @@ export function CreateHello() {
             <Input
               fullWidth
               isRequired
-              // errorMessage={form.formState.errors.message?.message}
               isDisabled={form.formState.isSubmitting}
               isInvalid={
                 !!form.formState.errors.message &&
