@@ -5,7 +5,7 @@ import { GithubIcon, HonoLogo, NextJSLogo } from "@/components/icons";
 import { ClientHello } from "@/features/hello/components/client-hello";
 import { CreateHello } from "@/features/hello/components/update-hello-form";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="mx-auto flex max-w-2xl flex-1 flex-col items-center justify-center gap-6">
       <div className="flex gap-8">
@@ -24,7 +24,6 @@ export default function Home() {
           startContent={<GithubIcon />}
           variant="bordered"
         >
-          {" "}
           Github
         </Button>
 
