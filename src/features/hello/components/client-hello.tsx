@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getLoadingCreateHelloQueryOptions, useHello } from "../api/get-hello";
 
 export function ClientHello() {
-  const { data, isFetching } = useHello({ message: "Client" });
+  const { data, isFetching } = useHello({ message: "" });
   const { data: isLoading } = useQuery(getLoadingCreateHelloQueryOptions());
 
   return (
