@@ -1,5 +1,5 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { z } from "zod";
 
 import {
   getHelloQueryOptions,
@@ -7,9 +7,20 @@ import {
 } from "./get-hello";
 
 import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/react-query";
 
-export async function updateHello(message: string) {
-  const response = await api.hello.$patch({ json: { message } });
+type UseUpdateHelloOptions = {
+  mutationConfig?: MutationConfig<typeof updateHello>;
+};
+
+export const updateHelloInputSchema = z.object({
+  message: z.string().min(1, "Required"),
+});
+
+export type UpdateHelloInput = z.infer<typeof updateHelloInputSchema>;
+
+export const updateHello = async ({ data }: { data: UpdateHelloInput }) => {
+  const response = await api.hello.$patch({ json: data });
 
   if (!response.ok) {
     const error = await response.text();
@@ -17,49 +28,59 @@ export async function updateHello(message: string) {
     throw new Error(error);
   }
 
-  const newHello = await response.json();
+  return response.json();
+};
 
-  return newHello;
-}
+export const useUpdateHello = ({
+  mutationConfig,
+}: UseUpdateHelloOptions = {}) => {
+  const queryClient = useQueryClient();
+  const { onSuccess, onError, ...restConfig } = mutationConfig ?? {};
 
-export function useHelloMutation(queryClient: QueryClient) {
   return useMutation({
-    mutationFn: (message: string) => updateHello(message),
-    onMutate: async (newHello) => {
+    onMutate: async (variables: { data: UpdateHelloInput }) => {
       await queryClient.cancelQueries({
-        queryKey: [getHelloQueryOptions("").queryKey],
+        queryKey: getHelloQueryOptions("").queryKey,
       });
 
-      const existingHello = queryClient.getQueryData(
+      const existingHello = queryClient.getQueryData<{ message: string }>(
         getHelloQueryOptions("").queryKey,
       );
 
-      queryClient.setQueryData(getHelloQueryOptions("").queryKey, {
-        message: newHello,
-      });
+      queryClient.setQueryData<{ message: string }>(
+        getHelloQueryOptions("").queryKey,
+        {
+          message: variables.data.message,
+        },
+      );
       queryClient.setQueryData(getLoadingCreateHelloQueryOptions().queryKey, {
         loading: true,
       });
 
-      return { existingHello, newHello };
+      return { existingHello, newHello: variables };
     },
     onError: (error, _newHello, context) => {
-      queryClient.setQueryData(
-        getHelloQueryOptions("").queryKey,
-        context?.existingHello,
-      );
-      toast.error(error.message);
+      if (
+        context &&
+        typeof context === "object" &&
+        "existingHello" in context
+      ) {
+        queryClient.setQueryData(
+          getHelloQueryOptions("").queryKey,
+          (context as { existingHello?: { message: string } }).existingHello,
+        );
+      }
+      onError?.(error, _newHello, context);
     },
-    onSuccess: () => {
-      toast.success("Hello created!");
+    onSuccess: (...args) => {
+      onSuccess?.(...args);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: [getHelloQueryOptions("").queryKey],
-      });
       queryClient.setQueryData(getLoadingCreateHelloQueryOptions().queryKey, {
         loading: false,
       });
     },
+    ...restConfig,
+    mutationFn: updateHello,
   });
-}
+};

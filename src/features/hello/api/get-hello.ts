@@ -1,8 +1,7 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { UseHelloOptions } from "../types";
-
 import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/react-query";
 
 export async function getHello(message: string) {
   const response = await api.hello.$get({ query: { message } });
@@ -15,6 +14,11 @@ export async function getHello(message: string) {
 
   return data;
 }
+
+type UseHelloOptions = {
+  queryConfig?: QueryConfig<typeof getHelloQueryOptions>;
+  message: string;
+};
 
 export const getHelloQueryOptions = (message: string) => {
   return queryOptions({

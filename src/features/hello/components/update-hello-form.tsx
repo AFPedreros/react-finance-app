@@ -3,17 +3,25 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { useQueryClient } from "@tanstack/react-query";
 import { Fragment } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { useHelloMutation } from "../api/update-hello";
+import { useUpdateHello } from "../api/update-hello";
 import { updateHelloFormSchema } from "../schemas";
 import { UpdateHelloForm } from "../types";
 
 export function CreateHello() {
-  const queryClient = useQueryClient();
-  const { mutateAsync } = useHelloMutation(queryClient);
+  const { mutate } = useUpdateHello({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Hello updated!");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    },
+  });
 
   const form = useForm<UpdateHelloForm>({
     resolver: zodResolver(updateHelloFormSchema),
@@ -23,16 +31,9 @@ export function CreateHello() {
     mode: "onChange",
   });
 
-  async function onSubmit(values: UpdateHelloForm) {
-    const { message } = values;
-
-    try {
-      await mutateAsync(message);
-      form.reset();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
-    }
+  function onSubmit(values: UpdateHelloForm) {
+    mutate({ data: values });
+    form.reset();
   }
 
   return (
