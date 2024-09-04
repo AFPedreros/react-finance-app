@@ -66,7 +66,7 @@ export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
         newAccounts,
       );
       queryClient.setQueryData(
-        getTotalBalanceAccountsQueryOptions.queryKey,
+        getTotalBalanceAccountsQueryOptions().queryKey,
         (oldTotalBalance) => {
           const oldAccount = existingAccounts.find(
             (item) => item.id === updatedAccount.id,
