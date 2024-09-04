@@ -16,6 +16,7 @@ export function CreateHello() {
     mutationConfig: {
       onSuccess: () => {
         toast.success("Hello updated!");
+        form.reset();
       },
       onError: (error) => {
         toast.error(error.message);
@@ -33,7 +34,6 @@ export function CreateHello() {
 
   function onSubmit(values: UpdateHelloForm) {
     mutate({ data: values });
-    form.reset();
   }
 
   return (
