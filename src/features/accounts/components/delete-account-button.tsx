@@ -33,7 +33,7 @@ export const DeleteAccountButton = ({
       );
 
       queryClient.setQueryData(
-        getTotalBalanceAccountsQueryOptions.queryKey,
+        getTotalBalanceAccountsQueryOptions().queryKey,
         (oldTotalBalance) => {
           const newBalance =
             Number(oldTotalBalance?.totalBalance) -
