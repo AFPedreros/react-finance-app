@@ -66,7 +66,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
           0,
         );
 
-      queryClient.setQueryData(getTotalBalanceAccountsQueryOptions.queryKey, {
+      queryClient.setQueryData(getTotalBalanceAccountsQueryOptions().queryKey, {
         totalBalance: totalBalance.toString(),
       });
 
