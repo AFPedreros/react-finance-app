@@ -7,14 +7,12 @@ const messageSchema = z.object({
   message: z.string().min(1),
 });
 
-let hello = "Client hello from Hono!";
-
 export const helloRoute = new Hono()
   .get("/", zValidator("query", messageSchema), async (c) => {
     const { message } = c.req.valid("query");
 
     return c.json({
-      message: `${message} ${hello}`,
+      message: `${message}`,
     });
   })
   .patch("/", zValidator("json", messageSchema), async (c) => {
@@ -28,10 +26,8 @@ export const helloRoute = new Hono()
       });
     }
 
-    hello = message;
-
     return c.json({
-      message: `${hello}`,
+      message: `${message}`,
     });
   });
 
