@@ -1,6 +1,7 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/react-query";
 import { getOrCreateUUID } from "@/lib/utils";
 
 const userId = getOrCreateUUID();
@@ -19,8 +20,23 @@ async function getTotalAccounts() {
   return total;
 }
 
-export const getTotalBalanceAccountsQueryOptions = queryOptions({
-  queryKey: ["get-total-accounts"],
-  queryFn: getTotalAccounts,
-  staleTime: 1000 * 60 * 5,
-});
+export const getTotalBalanceAccountsQueryOptions = () => {
+  return queryOptions({
+    queryKey: ["get-total-accounts"],
+    queryFn: getTotalAccounts,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+type UseTotalBalanceAccountsOptions = {
+  queryConfig?: QueryConfig<typeof getTotalBalanceAccountsQueryOptions>;
+};
+
+export function useTotalBalanceAccounts({
+  queryConfig,
+}: UseTotalBalanceAccountsOptions = {}) {
+  return useQuery({
+    ...getTotalBalanceAccountsQueryOptions(),
+    ...queryConfig,
+  });
+}
