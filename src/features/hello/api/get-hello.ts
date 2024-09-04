@@ -15,11 +15,6 @@ export async function getHello(message: string) {
   return data;
 }
 
-type UseHelloOptions = {
-  queryConfig?: QueryConfig<typeof getHelloQueryOptions>;
-  message: string;
-};
-
 export const getHelloQueryOptions = (message: string) => {
   return queryOptions({
     queryKey: ["get-hello"],
@@ -38,6 +33,11 @@ export const getLoadingCreateHelloQueryOptions = () => {
     },
     staleTime: Infinity,
   });
+};
+
+type UseHelloOptions = {
+  queryConfig?: QueryConfig<typeof getHelloQueryOptions>;
+  message: string;
 };
 
 export function useHello({ queryConfig, message }: UseHelloOptions) {

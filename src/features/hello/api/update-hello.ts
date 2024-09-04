@@ -9,10 +9,6 @@ import {
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/react-query";
 
-type UseUpdateHelloOptions = {
-  mutationConfig?: MutationConfig<typeof updateHello>;
-};
-
 export const updateHelloInputSchema = z.object({
   message: z.string().min(1, "Required"),
 });
@@ -29,6 +25,10 @@ export const updateHello = async ({ data }: { data: UpdateHelloInput }) => {
   }
 
   return response.json();
+};
+
+type UseUpdateHelloOptions = {
+  mutationConfig?: MutationConfig<typeof updateHello>;
 };
 
 export const useUpdateHello = ({

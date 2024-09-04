@@ -36,8 +36,12 @@ export function formatCurrency(
 ): string {
   const numberAmount = Number(amount);
 
-  return numberAmount.toLocaleString(locale, {
+  const formatted = numberAmount.toLocaleString(locale, {
     style: "currency",
     currency: currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
+
+  return formatted;
 }
