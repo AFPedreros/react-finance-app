@@ -72,7 +72,6 @@ export const AccountsTable = () => {
         table: cn({ "min-h-full": accounts.length === 0 }),
       }}
       color="primary"
-      selectionMode="multiple"
       sortDescriptor={sortDescriptor}
       onSortChange={setSortDescriptor}
     >
