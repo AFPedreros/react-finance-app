@@ -1,6 +1,6 @@
 import { Modal, ModalProps } from "@nextui-org/modal";
 
-export const Drawer = ({ ...props }: ModalProps) => {
+export function Drawer({ ...props }: ModalProps) {
   return (
     <Modal
       backdrop="opaque"
@@ -37,4 +37,4 @@ export const Drawer = ({ ...props }: ModalProps) => {
       <>{props.children}</>
     </Modal>
   );
-};
+}

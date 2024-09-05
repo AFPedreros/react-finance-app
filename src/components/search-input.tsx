@@ -6,7 +6,7 @@ import { SearchIcon } from "./icons";
 
 type SearchInputProps = React.HTMLAttributes<HTMLDivElement>;
 
-export const SearchInput = ({ className }: SearchInputProps) => {
+export function SearchInput({ className }: SearchInputProps) {
   return (
     <Input
       aria-label="Search"
@@ -27,4 +27,4 @@ export const SearchInput = ({ className }: SearchInputProps) => {
       type="search"
     />
   );
-};
+}
