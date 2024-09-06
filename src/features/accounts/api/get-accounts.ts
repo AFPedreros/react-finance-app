@@ -1,6 +1,7 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { api } from "@/lib/api-client";
+import { QueryConfig } from "@/lib/react-query";
 import { getOrCreateUUID } from "@/lib/utils";
 
 const userId = getOrCreateUUID();
@@ -19,8 +20,21 @@ async function getAllAccounts() {
   return accounts;
 }
 
-export const getAllAccountsQueryOptions = queryOptions({
-  queryKey: ["get-all-accounts"],
-  queryFn: getAllAccounts,
-  staleTime: 1000 * 60 * 5,
-});
+export const getAllAccountsQueryOptions = () => {
+  return queryOptions({
+    queryKey: ["get-all-accounts"],
+    queryFn: getAllAccounts,
+    staleTime: 1000 * 60 * 5,
+  });
+};
+
+type UseAllAccountsOptions = {
+  queryConfig?: QueryConfig<typeof getAllAccountsQueryOptions>;
+};
+
+export function useAllAccounts({ queryConfig }: UseAllAccountsOptions = {}) {
+  return useQuery({
+    ...getAllAccountsQueryOptions(),
+    ...queryConfig,
+  });
+}

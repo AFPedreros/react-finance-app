@@ -45,7 +45,7 @@ export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
 
   async function onSubmit(values: Inputs) {
     const existingAccounts = await queryClient.ensureQueryData(
-      getAllAccountsQueryOptions,
+      getAllAccountsQueryOptions(),
     );
 
     const data = {
@@ -62,7 +62,7 @@ export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
       );
 
       queryClient.setQueryData(
-        getAllAccountsQueryOptions.queryKey,
+        getAllAccountsQueryOptions().queryKey,
         newAccounts,
       );
       queryClient.setQueryData(

@@ -27,7 +27,7 @@ export const DeleteAccountButton = ({
       toast.success("Account deleted!");
 
       queryClient.setQueryData(
-        getAllAccountsQueryOptions.queryKey,
+        getAllAccountsQueryOptions().queryKey,
         (existingAccounts) =>
           existingAccounts!.filter((account) => account.id !== Number(id)),
       );

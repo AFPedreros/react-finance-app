@@ -41,7 +41,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
 
   async function onSubmit(values: Inputs) {
     const existingAccounts = await queryClient.ensureQueryData(
-      getAllAccountsQueryOptions,
+      getAllAccountsQueryOptions(),
     );
     const data = {
       ...values,
@@ -54,7 +54,7 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
     try {
       const newAccount = await createAccount({ values: data });
 
-      queryClient.setQueryData(getAllAccountsQueryOptions.queryKey, [
+      queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
         newAccount,
         ...existingAccounts,
       ]);
