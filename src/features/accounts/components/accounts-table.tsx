@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 
 import { loadingCreateAccountQueryOptions } from "../api/create-account";
-import { getAllAccountsQueryOptions } from "../api/get-accounts";
+import { useAllAccounts } from "../api/get-accounts";
 import { columns } from "../lib/columns";
 
 import { DeleteAccountButton } from "./delete-account-button";
@@ -24,7 +24,7 @@ import { EditAccountModal } from "./edit-account-modal";
 import { formatCurrency } from "@/lib/utils";
 
 export const AccountsTable = () => {
-  const { data, isPending } = useQuery(getAllAccountsQueryOptions);
+  const { data, isPending } = useAllAccounts({});
   const { data: loadingCreateAccount } = useQuery(
     loadingCreateAccountQueryOptions,
   );
