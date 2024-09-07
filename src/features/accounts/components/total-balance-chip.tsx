@@ -5,7 +5,7 @@ import { Skeleton } from "@nextui-org/skeleton";
 
 import { useTotalBalanceAccounts } from "../api/get-total-balance-accounts";
 
-import { formatCurrency } from "@/lib/utils";
+import { AnimatedNumber } from "@/components/animated-number";
 
 export const TotalBalanceChip = () => {
   const { data, isPending } = useTotalBalanceAccounts({});
@@ -16,7 +16,14 @@ export const TotalBalanceChip = () => {
 
   return (
     <Chip className="mr-2" color="success" variant="faded">
-      Total: {formatCurrency(data?.totalBalance ?? "0")}
+      Total:{" "}
+      <AnimatedNumber
+        springOptions={{
+          bounce: 0,
+          duration: 1000,
+        }}
+        value={Number(data?.totalBalance) ?? 0}
+      />
     </Chip>
   );
 };
