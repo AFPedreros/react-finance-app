@@ -2,36 +2,38 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
-import { useQueryClient } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
-import {
-  createAccount,
-  loadingCreateAccountQueryOptions,
-} from "../api/create-account";
-import { getAllAccountsQueryOptions } from "../api/get-accounts";
-import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
+import { useCreateAccount } from "../api/create-account";
+import { createAccountFormSchema } from "../schemas";
+import { CreateAccountInputs } from "../types";
 
-import { createAccountSchema } from "@/db/schemas";
 import { getOrCreateUUID } from "@/lib/utils";
 
-const formSchema = createAccountSchema.omit({ userId: true });
-
-type Inputs = z.infer<typeof formSchema>;
-
 export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
-  const queryClient = useQueryClient();
   const userId = getOrCreateUUID();
+
+  const { mutate } = useCreateAccount({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Account created!");
+        reset();
+        onClose();
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    },
+  });
 
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
     handleSubmit,
     reset,
-  } = useForm<Inputs>({
-    resolver: zodResolver(formSchema),
+  } = useForm<CreateAccountInputs>({
+    resolver: zodResolver(createAccountFormSchema),
     defaultValues: {
       name: "",
       balance: "",
@@ -39,48 +41,57 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
     mode: "onChange",
   });
 
-  async function onSubmit(values: Inputs) {
-    const existingAccounts = await queryClient.ensureQueryData(
-      getAllAccountsQueryOptions(),
-    );
+  // async function onSubmit(values: CreateAccountInputs) {
+  //   const existingAccounts = await queryClient.ensureQueryData(
+  //     getAllAccountsQueryOptions(),
+  //   );
+  //   const data = {
+  //     ...values,
+  //     userId,
+  //   };
+
+  //   queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {
+  //     account: data,
+  //   });
+  //   try {
+  //     const newAccount = await createAccount({ values: data });
+
+  //     queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
+  //       newAccount,
+  //       ...existingAccounts,
+  //     ]);
+
+  //     const totalBalance =
+  //       parseFloat(newAccount.balance) +
+  //       existingAccounts.reduce(
+  //         (acc, account) => acc + parseFloat(account.balance),
+  //         0,
+  //       );
+
+  //     queryClient.setQueryData(getTotalBalanceAccountsQueryOptions().queryKey, {
+  //       totalBalance: totalBalance.toString(),
+  //     });
+
+  //     reset();
+  //     onClose();
+  //     toast.success("Account created!");
+  //   } catch (error) {
+  //     const errorMessage =
+  //       error instanceof Error ? error.message : "An unknown error occurred";
+
+  //     toast.error(errorMessage);
+  //   } finally {
+  //     queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {});
+  //   }
+  // }
+
+  function onSubmit(values: CreateAccountInputs) {
     const data = {
       ...values,
       userId,
     };
 
-    queryClient.setQueryData(loadingCreateAccountQueryOptions.queryKey, {
-      account: data,
-    });
-    try {
-      const newAccount = await createAccount({ values: data });
-
-      queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
-        newAccount,
-        ...existingAccounts,
-      ]);
-
-      const totalBalance =
-        parseFloat(newAccount.balance) +
-        existingAccounts.reduce(
-          (acc, account) => acc + parseFloat(account.balance),
-          0,
-        );
-
-      queryClient.setQueryData(getTotalBalanceAccountsQueryOptions().queryKey, {
-        totalBalance: totalBalance.toString(),
-      });
-
-      reset();
-      onClose();
-      toast.success("Account created!");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "An unknown error occurred";
-
-      toast.error(errorMessage);
-    } finally {
-      queryClient.setQueryData(loadingCreateAccountQueryOptions.queryKey, {});
-    }
+    mutate({ data });
   }
 
   return (

@@ -50,7 +50,7 @@ export function Sidebar({ isCollapsed }: SidebarProps) {
         >
           <Button
             isIconOnly
-            className="absolute right-0 top-6 z-30 w-fit -translate-y-1/2 translate-x-1/2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            className="absolute right-0 top-6 z-30 w-fit -translate-y-1/2 translate-x-1/2 transition-opacity duration-200"
             size="sm"
             variant="light"
             onPress={handleToggleSidebar}

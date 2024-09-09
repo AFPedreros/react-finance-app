@@ -26,7 +26,7 @@ import { formatCurrency } from "@/lib/utils";
 export const AccountsTable = () => {
   const { data, isPending } = useAllAccounts({});
   const { data: loadingCreateAccount } = useQuery(
-    loadingCreateAccountQueryOptions,
+    loadingCreateAccountQueryOptions(),
   );
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({

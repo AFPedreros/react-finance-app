@@ -16,7 +16,7 @@ export function CreateHello() {
     mutationConfig: {
       onSuccess: () => {
         toast.success("Hello updated!");
-        form.reset();
+        reset();
       },
       onError: (error) => {
         toast.error(error.message);
@@ -24,7 +24,12 @@ export function CreateHello() {
     },
   });
 
-  const form = useForm<UpdateHelloForm>({
+  const {
+    formState: { isValid, isSubmitting, dirtyFields, errors },
+    control,
+    handleSubmit,
+    reset,
+  } = useForm<UpdateHelloForm>({
     resolver: zodResolver(updateHelloFormSchema),
     defaultValues: {
       message: "",
@@ -39,29 +44,24 @@ export function CreateHello() {
   return (
     <form
       className="flex min-w-80 flex-col items-center justify-center"
-      onSubmit={form.handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Controller
-        control={form.control}
+        control={control}
         name="message"
         render={({ field }) => (
           <Fragment>
             <Input
               fullWidth
               isRequired
-              isDisabled={form.formState.isSubmitting}
-              isInvalid={
-                !!form.formState.errors.message &&
-                form.formState.dirtyFields.message
-              }
+              isDisabled={isSubmitting}
+              isInvalid={!!errors.message && dirtyFields.message}
               label="New message"
               type="text"
               {...field}
             />
             <div className="my-1 h-4 w-full pl-1 text-tiny text-danger">
-              {form.formState.dirtyFields.message && (
-                <span>{form.formState.errors.message?.message}</span>
-              )}
+              {dirtyFields.message && <span>{errors.message?.message}</span>}
             </div>
           </Fragment>
         )}
@@ -69,8 +69,8 @@ export function CreateHello() {
       <Button
         className="w-full"
         color="primary"
-        isDisabled={!form.formState.isValid || form.formState.isSubmitting}
-        isLoading={form.formState.isSubmitting}
+        isDisabled={!isValid || isSubmitting}
+        isLoading={isSubmitting}
         type="submit"
       >
         Update

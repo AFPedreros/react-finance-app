@@ -1,11 +1,19 @@
-import { queryOptions } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+
+import { getAllAccountsQueryOptions } from "./get-accounts";
+import { getTotalBalanceAccountsQueryOptions } from "./get-total-balance-accounts";
 
 import { api } from "@/lib/api-client";
+import { MutationConfig } from "@/lib/react-query";
 import { CreateAccount } from "@/types";
 
-export async function createAccount({ values }: { values: CreateAccount }) {
+export async function createAccount({ data }: { data: CreateAccount }) {
   const response = await api.accounts.$post({
-    json: { ...values },
+    json: { ...data },
   });
 
   if (!response.ok) {
@@ -17,12 +25,84 @@ export async function createAccount({ values }: { values: CreateAccount }) {
   return newAccount;
 }
 
-export const loadingCreateAccountQueryOptions = queryOptions<{
-  account?: CreateAccount;
-}>({
-  queryKey: ["loading-create-account"],
-  queryFn: async () => {
-    return {};
-  },
-  staleTime: Infinity,
-});
+export const loadingCreateAccountQueryOptions = () => {
+  return queryOptions<{
+    account?: CreateAccount;
+  }>({
+    queryKey: ["loading-create-account"],
+    queryFn: async () => {
+      return {};
+    },
+    staleTime: Infinity,
+  });
+};
+
+type UseCreateAccountOptions = {
+  mutationConfig?: MutationConfig<typeof createAccount>;
+};
+
+export const useCreateAccount = ({
+  mutationConfig,
+}: UseCreateAccountOptions = {}) => {
+  const queryClient = useQueryClient();
+
+  const { onSuccess, onError, ...restConfig } = mutationConfig ?? {};
+
+  return useMutation({
+    onMutate: async (variables: { data: CreateAccount }) => {
+      await queryClient.cancelQueries({
+        queryKey: getAllAccountsQueryOptions().queryKey,
+      });
+
+      const existingAccounts = await queryClient.ensureQueryData(
+        getAllAccountsQueryOptions(),
+      );
+
+      queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {
+        account: variables.data,
+      });
+
+      const totalBalance =
+        parseFloat(variables.data.balance) +
+        (existingAccounts
+          ? existingAccounts.reduce(
+              (acc, account) => acc + parseFloat(account.balance),
+              0,
+            )
+          : 0);
+
+      queryClient.setQueryData(getTotalBalanceAccountsQueryOptions().queryKey, {
+        totalBalance: totalBalance.toString(),
+      });
+
+      return { existingAccounts, newAccount: variables.data };
+    },
+    onError: (error, _newAccount, context) => {
+      queryClient.setQueryData(
+        getAllAccountsQueryOptions().queryKey,
+        // @ts-ignore
+        context.existingAccounts,
+      );
+
+      onError?.(error, _newAccount, context);
+    },
+    onSuccess: (...args) => {
+      onSuccess?.(...args);
+    },
+    onSettled: async (newAccount) => {
+      queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {});
+      const existingAccounts = await queryClient.ensureQueryData(
+        getAllAccountsQueryOptions(),
+      );
+
+      if (newAccount) {
+        queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
+          newAccount,
+          ...(existingAccounts || []),
+        ]);
+      }
+    },
+    mutationFn: createAccount,
+    ...restConfig,
+  });
+};

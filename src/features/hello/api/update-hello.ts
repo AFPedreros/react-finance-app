@@ -60,16 +60,12 @@ export const useUpdateHello = ({
       return { existingHello, newHello: variables };
     },
     onError: (error, _newHello, context) => {
-      if (
-        context &&
-        typeof context === "object" &&
-        "existingHello" in context
-      ) {
-        queryClient.setQueryData(
-          getHelloQueryOptions("").queryKey,
-          (context as { existingHello?: { message: string } }).existingHello,
-        );
-      }
+      queryClient.setQueryData(
+        getHelloQueryOptions("").queryKey,
+        // @ts-ignore
+        context.existingHello,
+      );
+
       onError?.(error, _newHello, context);
     },
     onSuccess: (...args) => {
