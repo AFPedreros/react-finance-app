@@ -5,7 +5,8 @@ import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
 import { cn } from "@nextui-org/theme";
 import { Tooltip } from "@nextui-org/tooltip";
 import { useCookies } from "next-client-cookies";
-import { usePathname, useRouter } from "next/navigation";
+import { useTransitionRouter } from "next-view-transitions";
+import { usePathname } from "next/navigation";
 
 import { CompactSidebarIcon, ExpandSidebarIcon } from "./icons";
 
@@ -18,7 +19,7 @@ type SidebarProps = {
 
 export function Sidebar({ isCollapsed }: SidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  const router = useTransitionRouter();
   const cookies = useCookies();
   const setIsCollapsed = useSidebarStore((state) => state.setIsCollapsed);
 
