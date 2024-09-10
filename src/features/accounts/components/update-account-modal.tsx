@@ -7,23 +7,23 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 
-import { EditAccountForm } from "./edit-account-form";
+import { UpdateAccountForm } from "./update-account-form";
 
 import { PenIcon } from "@/components/icons";
 
-export type EditAccountModalProps = {
+type UpdateAccountModalProps = {
   balance: string;
   id: number;
   isLoading?: boolean;
   name: string;
 };
 
-export const EditAccountModal = ({
+export function UpdateAccountModal({
   balance,
   id,
   isLoading,
   name,
-}: EditAccountModalProps) => {
+}: UpdateAccountModalProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -51,7 +51,7 @@ export const EditAccountModal = ({
                   Add the details of the account you want to edit.
                 </p>
               </ModalHeader>
-              <EditAccountForm
+              <UpdateAccountForm
                 account={{ balance, id, name }}
                 onClose={onClose}
               />
@@ -61,4 +61,4 @@ export const EditAccountModal = ({
       </Modal>
     </>
   );
-};
+}

@@ -7,7 +7,7 @@ import { useTotalBalanceAccounts } from "../api/get-total-balance-accounts";
 
 import { AnimatedNumber } from "@/components/animated-number";
 
-export const TotalBalanceChip = () => {
+export function TotalBalanceChip() {
   const { data, isPending } = useTotalBalanceAccounts({});
 
   if (isPending) {
@@ -26,4 +26,4 @@ export const TotalBalanceChip = () => {
       />
     </Chip>
   );
-};
+}

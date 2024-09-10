@@ -11,7 +11,11 @@ import { CreateAccountInputs } from "../types";
 
 import { getOrCreateUUID } from "@/lib/utils";
 
-export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
+type CreateAccountFormProps = {
+  onClose: () => void;
+};
+
+export function CreateAccountForm({ onClose }: CreateAccountFormProps) {
   const userId = getOrCreateUUID();
 
   const { mutate } = useCreateAccount({
@@ -145,4 +149,4 @@ export const CreateAccountForm = ({ onClose }: { onClose: () => void }) => {
       </Button>
     </form>
   );
-};
+}

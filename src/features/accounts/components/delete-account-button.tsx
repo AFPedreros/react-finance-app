@@ -13,10 +13,10 @@ type DeleteAccountButtonProps = {
   isLoading?: boolean;
 };
 
-export const DeleteAccountButton = ({
+export function DeleteAccountButton({
   id,
   isLoading,
-}: DeleteAccountButtonProps) => {
+}: DeleteAccountButtonProps) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: deleteAccount,
@@ -59,4 +59,4 @@ export const DeleteAccountButton = ({
       onPress={() => mutation.mutate({ id: Number(id) })}
     />
   );
-};
+}

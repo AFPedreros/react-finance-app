@@ -11,21 +11,23 @@ import { getAllAccountsQueryOptions } from "../api/get-accounts";
 import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
 import { updateAccount } from "../api/update-account";
 
-import { EditAccountModalProps } from "./edit-account-modal";
-
 import { createAccountSchema } from "@/db/schemas";
 import { getOrCreateUUID } from "@/lib/utils";
+import { Account } from "@/types";
 
 const formSchema = createAccountSchema.omit({ userId: true });
 
 type Inputs = z.infer<typeof formSchema>;
 
-type EditAccountFormProps = {
-  account: EditAccountModalProps;
+type UpdateAccountFormProps = {
+  account: Omit<Account, "createdAt" | "userId">;
   onClose: () => void;
 };
 
-export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
+export function UpdateAccountForm({
+  account,
+  onClose,
+}: UpdateAccountFormProps) {
   const queryClient = useQueryClient();
   const userId = getOrCreateUUID();
 
@@ -155,4 +157,4 @@ export const EditAccountForm = ({ account, onClose }: EditAccountFormProps) => {
       </div>
     </form>
   );
-};
+}

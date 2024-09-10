@@ -13,7 +13,7 @@ import { CreateAccountForm } from "./create-account-form";
 import { Drawer } from "@/components/drawer";
 import { PlusIcon } from "@/components/icons";
 
-export const CreateAccountDrawer = () => {
+export function CreateAccountDrawer() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -44,4 +44,4 @@ export const CreateAccountDrawer = () => {
       </Drawer>
     </>
   );
-};
+}

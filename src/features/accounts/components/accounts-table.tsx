@@ -19,11 +19,11 @@ import { useAllAccounts } from "../api/get-accounts";
 import { columns } from "../lib/columns";
 
 import { DeleteAccountButton } from "./delete-account-button";
-import { EditAccountModal } from "./edit-account-modal";
+import { UpdateAccountModal } from "./update-account-modal";
 
 import { formatCurrency } from "@/lib/utils";
 
-export const AccountsTable = () => {
+export function AccountsTable() {
   const { data, isPending } = useAllAccounts({});
   const { data: loadingCreateAccount } = useQuery(
     loadingCreateAccountQueryOptions(),
@@ -103,7 +103,7 @@ export const AccountsTable = () => {
               <TableCell>{formatCurrency(account.balance)}</TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-2">
-                  <EditAccountModal
+                  <UpdateAccountModal
                     balance={account.balance}
                     id={account.id}
                     isLoading={isOptimisticAccount}
@@ -121,4 +121,4 @@ export const AccountsTable = () => {
       </TableBody>
     </Table>
   );
-};
+}
