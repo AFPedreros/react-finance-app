@@ -2,22 +2,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
-import { useQueryClient } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 
-import { getAllAccountsQueryOptions } from "../api/get-accounts";
-import { getTotalBalanceAccountsQueryOptions } from "../api/get-total-balance-accounts";
-import { updateAccount } from "../api/update-account";
+import { useUpdateAccount } from "../api/update-account";
+import { updateFormSchema } from "../schemas";
+import { UpdateAccountInputs } from "../types";
 
-import { createAccountSchema } from "@/db/schemas";
 import { getOrCreateUUID } from "@/lib/utils";
 import { Account } from "@/types";
-
-const formSchema = createAccountSchema.omit({ userId: true });
-
-type Inputs = z.infer<typeof formSchema>;
 
 type UpdateAccountFormProps = {
   account: Omit<Account, "createdAt" | "userId">;
@@ -28,16 +21,28 @@ export function UpdateAccountForm({
   account,
   onClose,
 }: UpdateAccountFormProps) {
-  const queryClient = useQueryClient();
   const userId = getOrCreateUUID();
+
+  const { mutate } = useUpdateAccount({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Account updated!");
+        reset();
+        onClose();
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    },
+  });
 
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
     control,
     handleSubmit,
     reset,
-  } = useForm<Inputs>({
-    resolver: zodResolver(formSchema),
+  } = useForm<UpdateAccountInputs>({
+    resolver: zodResolver(updateFormSchema),
     defaultValues: {
       balance: account.balance.split(".")[0],
       name: account.name,
@@ -45,53 +50,14 @@ export function UpdateAccountForm({
     mode: "onChange",
   });
 
-  async function onSubmit(values: Inputs) {
-    const existingAccounts = await queryClient.ensureQueryData(
-      getAllAccountsQueryOptions(),
-    );
-
+  function onSubmit(values: UpdateAccountInputs) {
     const data = {
       ...values,
       id: account.id,
       userId,
     };
 
-    try {
-      const updatedAccount = await updateAccount({ values: data });
-
-      const newAccounts = existingAccounts.map((item) =>
-        item.id === updatedAccount.id ? updatedAccount : item,
-      );
-
-      queryClient.setQueryData(
-        getAllAccountsQueryOptions().queryKey,
-        newAccounts,
-      );
-      queryClient.setQueryData(
-        getTotalBalanceAccountsQueryOptions().queryKey,
-        (oldTotalBalance) => {
-          const oldAccount = existingAccounts.find(
-            (item) => item.id === updatedAccount.id,
-          );
-          const oldBalance = oldAccount ? Number(oldAccount.balance) : 0;
-          const newBalance = Number(updatedAccount.balance);
-          const newTotal =
-            Number(oldTotalBalance?.totalBalance) - oldBalance + newBalance;
-
-          return { totalBalance: newTotal.toString() };
-        },
-      );
-
-      toast.success("Account updated!");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "An unknown error occurred";
-
-      toast.error(errorMessage);
-    } finally {
-      reset();
-      onClose();
-    }
+    mutate({ data });
   }
 
   return (

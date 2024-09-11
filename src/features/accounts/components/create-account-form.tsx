@@ -45,50 +45,6 @@ export function CreateAccountForm({ onClose }: CreateAccountFormProps) {
     mode: "onChange",
   });
 
-  // async function onSubmit(values: CreateAccountInputs) {
-  //   const existingAccounts = await queryClient.ensureQueryData(
-  //     getAllAccountsQueryOptions(),
-  //   );
-  //   const data = {
-  //     ...values,
-  //     userId,
-  //   };
-
-  //   queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {
-  //     account: data,
-  //   });
-  //   try {
-  //     const newAccount = await createAccount({ values: data });
-
-  //     queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
-  //       newAccount,
-  //       ...existingAccounts,
-  //     ]);
-
-  //     const totalBalance =
-  //       parseFloat(newAccount.balance) +
-  //       existingAccounts.reduce(
-  //         (acc, account) => acc + parseFloat(account.balance),
-  //         0,
-  //       );
-
-  //     queryClient.setQueryData(getTotalBalanceAccountsQueryOptions().queryKey, {
-  //       totalBalance: totalBalance.toString(),
-  //     });
-
-  //     reset();
-  //     onClose();
-  //     toast.success("Account created!");
-  //   } catch (error) {
-  //     const errorMessage =
-  //       error instanceof Error ? error.message : "An unknown error occurred";
-
-  //     toast.error(errorMessage);
-  //   } finally {
-  //     queryClient.setQueryData(loadingCreateAccountQueryOptions().queryKey, {});
-  //   }
-  // }
-
   function onSubmit(values: CreateAccountInputs) {
     const data = {
       ...values,
