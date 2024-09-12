@@ -1,10 +1,14 @@
-import { SharedLayout } from "@/components/shared-layout";
+import { AnimatedHeightLayout } from "@/components/animated-height-layout";
+import { AnimatedSharedLayout } from "@/components/animated-shared-layout";
 
 export default function CategoriesPage() {
   return (
-    <main className="flex min-h-screen flex-col gap-6 p-6">
+    <main className="flex flex-col gap-6 p-6">
       <h1>Categories</h1>
-      <SharedLayout />
+
+      <AnimatedHeightLayout />
+
+      <AnimatedSharedLayout />
     </main>
   );
 }

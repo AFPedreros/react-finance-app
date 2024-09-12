@@ -1,5 +1,6 @@
 "use client";
 
+import { Image } from "@nextui-org/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
@@ -50,11 +51,16 @@ const GAMES = [
 
 type Game = (typeof GAMES)[number];
 
-export function SharedLayout() {
+export function AnimatedSharedLayout() {
   const [activeGame, setActiveGame] = useState<Game | null>(null);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setActiveGame(null));
+
+  function handleGameClick(game: Game) {
+    setActiveGame(game);
+  }
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -70,7 +76,7 @@ export function SharedLayout() {
   return (
     <>
       <AnimatePresence>
-        {activeGame ? (
+        {activeGame && (
           <>
             <motion.div
               animate={{ opacity: 1 }}
@@ -80,7 +86,7 @@ export function SharedLayout() {
             />
             <motion.div
               animate={{ opacity: 1 }}
-              className="absolute inset-0 z-10 grid place-items-center backdrop-blur-sm"
+              className="absolute inset-0 z-50 grid place-items-center backdrop-blur-sm"
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
             >
@@ -90,14 +96,18 @@ export function SharedLayout() {
                 layoutId={activeGame.title}
               >
                 <div className="flex w-full items-center gap-4">
-                  <motion.img
-                    alt="Game"
-                    className="rounded-xl"
-                    height={56}
+                  <motion.div
+                    className="relative size-14 rounded-xl"
                     layoutId={`image-${activeGame.title}`}
-                    src={activeGame.image}
-                    width={56}
-                  />
+                  >
+                    <Image
+                      alt={`${activeGame.title} game`}
+                      className="rounded-xl"
+                      height={56}
+                      src={activeGame.image}
+                      width={56}
+                    />
+                  </motion.div>
                   <div className="flex flex-grow items-center justify-between">
                     <div>
                       <motion.h2
@@ -107,7 +117,7 @@ export function SharedLayout() {
                         {activeGame.title}
                       </motion.h2>
                       <motion.p
-                        className="text-sm text-[#63635d]"
+                        className="text-sm text-default-500"
                         layoutId={`paragraph-${activeGame.title}`}
                       >
                         {activeGame.description}
@@ -133,26 +143,36 @@ export function SharedLayout() {
               </motion.div>
             </motion.div>
           </>
-        ) : null}
+        )}
       </AnimatePresence>
 
       <ul className="relative my-12 flex w-full flex-col items-center p-0">
         {GAMES.map((game, index) => (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
           <motion.li
             key={game.title}
             className="flex w-[386px] cursor-pointer items-center gap-4 rounded-lg p-0"
             layoutId={game.title}
-            onClick={() => setActiveGame(game)}
+            role="button"
+            tabIndex={0}
+            onClick={() => handleGameClick(game)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleGameClick(game);
+              }
+            }}
           >
-            <motion.img
-              alt="Game"
-              className="rounded-xl"
-              height={56}
+            <motion.div
+              className="relative size-14 rounded-xl"
               layoutId={`image-${game.title}`}
-              src={game.image}
-              width={56}
-            />
+            >
+              <Image
+                alt={`${game.title} game`}
+                className="z-0 rounded-xl"
+                height={56}
+                src={game.image}
+                width={56}
+              />
+            </motion.div>
             <div
               className={`flex flex-grow items-center justify-between ${
                 index !== GAMES.length - 1 ? "border-b border-[#d4d6d861]" : ""
@@ -166,7 +186,7 @@ export function SharedLayout() {
                   {game.title}
                 </motion.h2>
                 <motion.p
-                  className="text-sm text-[#63635d]"
+                  className="text-sm text-default-500"
                   layoutId={`paragraph-${game.title}`}
                 >
                   {game.description}
