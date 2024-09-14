@@ -27,8 +27,6 @@ export function UpdateAccountForm({
     mutationConfig: {
       onSuccess: () => {
         toast.success("Account updated!");
-        reset();
-        onClose();
       },
       onError: (error) => {
         toast.error(error.message);
@@ -58,6 +56,8 @@ export function UpdateAccountForm({
     };
 
     mutate({ data });
+    reset();
+    onClose();
   }
 
   return (

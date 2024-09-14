@@ -24,7 +24,7 @@ import { UpdateAccountModal } from "./update-account-modal";
 import { formatCurrency } from "@/lib/utils";
 
 export function AccountsTable() {
-  const { data, isPending } = useAllAccounts({});
+  const { data, isPending } = useAllAccounts();
   const { data: loadingCreateAccount } = useQuery(
     loadingCreateAccountQueryOptions(),
   );

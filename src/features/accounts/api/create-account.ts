@@ -77,14 +77,27 @@ export const useCreateAccount = ({
 
       return { existingAccounts, newAccount: variables.data };
     },
-    onError: (error, _newAccount, context) => {
+    onError: (error, variables, context) => {
       queryClient.setQueryData(
         getAllAccountsQueryOptions().queryKey,
         // @ts-ignore
-        context.existingAccounts,
+        context?.existingAccounts,
       );
 
-      onError?.(error, _newAccount, context);
+      if (variables) {
+        queryClient.setQueryData(
+          getTotalBalanceAccountsQueryOptions().queryKey,
+          (oldTotalBalance) => {
+            const addedBalance = Number(variables.data.balance);
+            const newTotal =
+              Number(oldTotalBalance?.totalBalance) - addedBalance;
+
+            return { totalBalance: newTotal.toString() };
+          },
+        );
+      }
+
+      onError?.(error, variables, context);
     },
     onSuccess: (...args) => {
       onSuccess?.(...args);

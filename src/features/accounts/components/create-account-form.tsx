@@ -22,8 +22,6 @@ export function CreateAccountForm({ onClose }: CreateAccountFormProps) {
     mutationConfig: {
       onSuccess: () => {
         toast.success("Account created!");
-        reset();
-        onClose();
       },
       onError: (error) => {
         toast.error(error.message);
@@ -52,6 +50,8 @@ export function CreateAccountForm({ onClose }: CreateAccountFormProps) {
     };
 
     mutate({ data });
+    reset();
+    onClose();
   }
 
   return (

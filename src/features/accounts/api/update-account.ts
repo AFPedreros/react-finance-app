@@ -61,9 +61,13 @@ export const useUpdateAccount = ({
         newAccounts,
       );
 
+      const oldTotalBalance = await queryClient.ensureQueryData(
+        getTotalBalanceAccountsQueryOptions(),
+      );
+
       queryClient.setQueryData(
         getTotalBalanceAccountsQueryOptions().queryKey,
-        (oldTotalBalance) => {
+        () => {
           const oldAccount = existingAccounts.find(
             (item) => item.id === updatedAccount.id,
           );
@@ -76,16 +80,22 @@ export const useUpdateAccount = ({
         },
       );
 
-      return { existingAccounts };
+      return { existingAccounts, oldTotalBalance };
     },
-    onError: (error, data, context) => {
+    onError: (error, variables, context) => {
       queryClient.setQueryData(
         getAllAccountsQueryOptions().queryKey,
         // @ts-ignore
         context?.existingAccounts,
       );
 
-      onError?.(error, data, context);
+      queryClient.setQueryData(
+        getTotalBalanceAccountsQueryOptions().queryKey,
+        // @ts-ignore
+        context?.oldTotalBalance,
+      );
+
+      onError?.(error, variables, context);
     },
     onSuccess: (...args) => {
       onSuccess?.(...args);

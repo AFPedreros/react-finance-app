@@ -8,7 +8,7 @@ import { useTotalBalanceAccounts } from "../api/get-total-balance-accounts";
 import { AnimatedNumber } from "@/components/animated-number";
 
 export function TotalBalanceChip() {
-  const { data, isPending } = useTotalBalanceAccounts({});
+  const { data, isPending } = useTotalBalanceAccounts();
 
   if (isPending) {
     return <Skeleton className="mr-2 h-6 w-40 rounded-full bg-transparent" />;
