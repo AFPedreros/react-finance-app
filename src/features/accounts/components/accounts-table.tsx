@@ -48,8 +48,14 @@ export function AccountsTable() {
 
   const sortedAccounts = useMemo(() => {
     return [...accounts].sort((a, b) => {
-      const first = a[sortDescriptor.column as keyof (typeof accounts)[0]];
-      const second = b[sortDescriptor.column as keyof (typeof accounts)[0]];
+      const column = sortDescriptor.column as keyof (typeof accounts)[0];
+      let first = a[column];
+      let second = b[column];
+
+      if (column === "balance") {
+        first = parseFloat(first as string);
+        second = parseFloat(second as string);
+      }
 
       if (typeof first === "string" && typeof second === "string") {
         return sortDescriptor.direction === "ascending"
@@ -57,9 +63,13 @@ export function AccountsTable() {
           : second.localeCompare(first);
       }
 
-      return sortDescriptor.direction === "ascending"
-        ? (first as number) - (second as number)
-        : (second as number) - (first as number);
+      if (typeof first === "number" && typeof second === "number") {
+        return sortDescriptor.direction === "ascending"
+          ? first - second
+          : second - first;
+      }
+
+      return 0;
     });
   }, [accounts, sortDescriptor]);
 

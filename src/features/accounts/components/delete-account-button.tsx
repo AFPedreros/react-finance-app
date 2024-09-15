@@ -17,7 +17,7 @@ export function DeleteAccountButton({
   const { mutate } = useDeleteAccount({
     mutationConfig: {
       onSuccess: () => {
-        toast.success("Account updated!");
+        toast.success("Account deleted!");
       },
       onError: (error) => {
         toast.error(error.message);
