@@ -3,8 +3,8 @@
 import { cn } from "@nextui-org/theme";
 import { ReactNode } from "react";
 
-import { useSidebarStore } from "@/app/stores/sidebar";
 import { Sidebar } from "@/components/sidebar";
+import { useSidebarStore } from "@/stores/sidebar";
 
 type AppLayoutProps = {
   children: ReactNode;

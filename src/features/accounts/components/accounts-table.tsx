@@ -23,7 +23,7 @@ import { UpdateAccountModal } from "./update-account-modal";
 
 import { formatCurrency } from "@/lib/utils";
 
-export function AccountsTable() {
+export function AccountsTable({ searchValue }: { searchValue: string }) {
   const { data, isPending } = useAllAccounts();
   const { data: loadingCreateAccount } = useQuery(
     loadingCreateAccountQueryOptions(),
@@ -46,8 +46,14 @@ export function AccountsTable() {
     accounts = [optimisticAccount, ...accounts];
   }
 
+  const searchedAccounts = useMemo(() => {
+    return accounts.filter((account) =>
+      account.name.toLowerCase().includes(searchValue?.toLowerCase()),
+    );
+  }, [accounts, searchValue]);
+
   const sortedAccounts = useMemo(() => {
-    return [...accounts].sort((a, b) => {
+    return [...searchedAccounts].sort((a, b) => {
       const column = sortDescriptor.column as keyof (typeof accounts)[0];
       let first = a[column];
       let second = b[column];
@@ -71,7 +77,7 @@ export function AccountsTable() {
 
       return 0;
     });
-  }, [accounts, sortDescriptor]);
+  }, [searchedAccounts, sortDescriptor]);
 
   return (
     <Table

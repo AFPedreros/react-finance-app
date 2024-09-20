@@ -1,10 +1,5 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Divider } from "@nextui-org/divider";
-
-import { SearchInput } from "@/components/search-input";
-import { AccountsTable } from "@/features/accounts/components/accounts-table";
+import { AccountsCard } from "@/features/accounts/components/accounts-card";
 import { CreateAccountDrawer } from "@/features/accounts/components/create-account-drawer";
-import { TotalBalanceChip } from "@/features/accounts/components/total-balance-chip";
 
 export default function AccountsPage() {
   return (
@@ -17,21 +12,7 @@ export default function AccountsPage() {
         <CreateAccountDrawer />
       </div>
 
-      <Card
-        isBlurred
-        className="h-full overflow-hidden border-transparent bg-white/5 backdrop-blur-lg backdrop-saturate-[1.8] dark:bg-content1"
-      >
-        <CardHeader className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <TotalBalanceChip />
-          <SearchInput className="ml-auto max-w-80" />
-        </CardHeader>
-
-        <Divider />
-
-        <CardBody className="overflow-auto">
-          <AccountsTable />
-        </CardBody>
-      </Card>
+      <AccountsCard />
     </main>
   );
 }

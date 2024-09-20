@@ -10,8 +10,8 @@ import { usePathname } from "next/navigation";
 
 import { CompactSidebarIcon, ExpandSidebarIcon } from "./icons";
 
-import { useSidebarStore } from "@/app/stores/sidebar";
 import { siteConfig } from "@/config/site";
+import { useSidebarStore } from "@/stores/sidebar";
 
 type SidebarProps = {
   isCollapsed: boolean;

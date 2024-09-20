@@ -4,9 +4,12 @@ import React from "react";
 
 import { SearchIcon } from "./icons";
 
-type SearchInputProps = React.HTMLAttributes<HTMLDivElement>;
+type SearchInputProps = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function SearchInput({ className }: SearchInputProps) {
+export function SearchInput({ className, value, onChange }: SearchInputProps) {
   return (
     <Input
       aria-label="Search"
@@ -25,6 +28,8 @@ export function SearchInput({ className }: SearchInputProps) {
         <SearchIcon className="flex-shrink-0 text-default-600 [&>g]:stroke-[2px]" />
       }
       type="search"
+      value={value}
+      onChange={onChange}
     />
   );
 }
