@@ -2,7 +2,7 @@
 
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Divider } from "@nextui-org/divider";
-import { ChangeEvent, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useDebounceValue } from "usehooks-ts";
 
 import { AccountsTable } from "./accounts-table";
@@ -11,11 +11,13 @@ import { TotalBalanceChip } from "./total-balance-chip";
 import { SearchInput } from "@/components/search-input";
 
 export function AccountsCard() {
-  const [searchValue, setSearchValue] = useState("");
+  const { control, watch } = useForm({
+    defaultValues: {
+      searchValue: "",
+    },
+  });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+  const searchValue = watch("searchValue");
 
   const [debouncedSearchValue] = useDebounceValue(searchValue, 500);
 
@@ -26,10 +28,16 @@ export function AccountsCard() {
     >
       <CardHeader className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
         <TotalBalanceChip />
-        <SearchInput
-          className="ml-auto max-w-80"
-          value={searchValue}
-          onChange={handleChange}
+        <Controller
+          control={control}
+          name="searchValue"
+          render={({ field }) => (
+            <SearchInput
+              className="ml-auto max-w-80"
+              value={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
       </CardHeader>
 
