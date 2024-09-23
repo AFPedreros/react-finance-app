@@ -20,10 +20,7 @@ export function CreateAccountDrawer() {
     <>
       <Button
         color="primary"
-        startContent={
-          <PlusIcon className="hidden shrink-0 sm:block" size={18} />
-        }
-        variant="bordered"
+        endContent={<PlusIcon className="hidden shrink-0 sm:block" size={18} />}
         onPress={onOpen}
       >
         Add New
