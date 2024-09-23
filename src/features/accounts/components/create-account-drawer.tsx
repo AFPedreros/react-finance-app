@@ -23,6 +23,7 @@ export function CreateAccountDrawer() {
         startContent={
           <PlusIcon className="hidden shrink-0 sm:block" size={18} />
         }
+        variant="bordered"
         onPress={onOpen}
       >
         Add New
