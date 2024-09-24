@@ -93,7 +93,7 @@ export function Sidebar({ isCollapsed }: SidebarProps) {
                     </div>
                   </Tooltip>
                 ) : (
-                  <span className="transition-all duration-150 ease-in-out group-hover/item:ml-1">
+                  <span className="transition-margin duration-150 ease-in-out group-hover/item:ml-1">
                     {item.label}
                   </span>
                 )}
