@@ -3,6 +3,7 @@ import { logger } from "hono/logger";
 import { handle } from "hono/vercel";
 
 import { accountsRoute } from "./routes/accounts";
+import { categoriesRoute } from "./routes/categories";
 import { helloRoute } from "./routes/hello";
 
 export const runtime = "edge";
@@ -15,7 +16,8 @@ app.use("*", logger());
 const apiRoutes = app
   .basePath("/api")
   .route("/hello", helloRoute)
-  .route("/accounts", accountsRoute);
+  .route("/accounts", accountsRoute)
+  .route("/categories", categoriesRoute);
 
 app.all("*", (c) => c.text("404: Not Found"));
 
