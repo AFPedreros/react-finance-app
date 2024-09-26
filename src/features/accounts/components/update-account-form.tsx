@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { useUpdateAccount } from "../api/update-account";
-import { updateFormSchema } from "../schemas";
+import { updateAccountFormSchema } from "../schemas";
 import { UpdateAccountInputs } from "../types";
 
 import { getOrCreateUUID } from "@/lib/utils";
@@ -40,7 +40,7 @@ export function UpdateAccountForm({
     handleSubmit,
     reset,
   } = useForm<UpdateAccountInputs>({
-    resolver: zodResolver(updateFormSchema),
+    resolver: zodResolver(updateAccountFormSchema),
     defaultValues: {
       balance: account.balance.split(".")[0],
       name: account.name,
