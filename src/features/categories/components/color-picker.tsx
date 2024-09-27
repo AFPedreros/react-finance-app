@@ -17,9 +17,7 @@ export function ColorPicker({
 }: ColorPickerProps) {
   return (
     <div className="max-w-fit">
-      <h3 className="text-medium font-medium leading-8 text-default-600">
-        Color
-      </h3>
+      <span className="">Color</span>
       <RadioGroup
         aria-label="Color"
         classNames={{
