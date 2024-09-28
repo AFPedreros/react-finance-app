@@ -17,7 +17,9 @@ export function ColorPicker({
 }: ColorPickerProps) {
   return (
     <div className="max-w-fit">
-      <span className="">Color</span>
+      <span className="pointer-events-none z-10 block max-w-full cursor-pointer overflow-hidden text-ellipsis pe-2 text-small text-foreground-500 subpixel-antialiased transition-[transform,color,left,opacity] !duration-200 !ease-out will-change-auto after:ml-0.5 after:text-danger after:content-['*'] group-data-[filled=true]:pointer-events-auto group-data-[filled=true]:-translate-y-[calc(50%_+_theme(fontSize.small)/2_-_6px)] group-data-[filled=true]:scale-85 group-data-[filled=true]:text-default-600 motion-reduce:transition-none">
+        Color
+      </span>
       <RadioGroup
         aria-label="Color"
         classNames={{
