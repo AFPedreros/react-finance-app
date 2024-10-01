@@ -120,16 +120,10 @@ export function CreateCategoryForm({ onClose }: CreateCategoryFormProps) {
         control={control}
         name="icon"
         render={({ field }) => (
-          <div className="flex flex-col">
-            <span className="pointer-events-none z-10 block max-w-full cursor-pointer overflow-hidden text-ellipsis pe-2 text-small text-foreground-500 subpixel-antialiased transition-[transform,color,left,opacity] !duration-200 !ease-out will-change-auto after:ml-0.5 after:text-danger after:content-['*'] group-data-[filled=true]:pointer-events-auto group-data-[filled=true]:-translate-y-[calc(50%_+_theme(fontSize.small)/2_-_6px)] group-data-[filled=true]:scale-85 group-data-[filled=true]:text-default-600 motion-reduce:transition-none">
-              Icon
-            </span>
-            <IconPicker
-              isDisabled={isSubmitting}
-              selectedIcon={field.value}
-              onSelectIcon={field.onChange}
-            />
-          </div>
+          <IconPicker
+            selectedIcon={field.value}
+            onSelectIcon={field.onChange}
+          />
         )}
       />
       <Divider className="my-2" />
