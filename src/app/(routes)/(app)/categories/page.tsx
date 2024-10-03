@@ -1,3 +1,4 @@
+import { CategoriesCard } from "@/features/categories/components/categories-card";
 import { CreateCategoryDrawer } from "@/features/categories/components/create-category-drawer";
 
 export default function CategoriesPage() {
@@ -11,7 +12,7 @@ export default function CategoriesPage() {
         <CreateCategoryDrawer />
       </div>
 
-      {/* <CategoriesCard /> */}
+      <CategoriesCard />
     </main>
   );
 }
