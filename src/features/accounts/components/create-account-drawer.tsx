@@ -7,6 +7,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
+import { Fragment } from "react";
 
 import { CreateAccountForm } from "./create-account-form";
 
@@ -17,7 +18,7 @@ export function CreateAccountDrawer() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <>
+    <Fragment>
       <Button
         color="primary"
         endContent={<PlusIcon className="hidden shrink-0 sm:block" size={18} />}
@@ -40,6 +41,6 @@ export function CreateAccountDrawer() {
           )}
         </ModalContent>
       </Drawer>
-    </>
+    </Fragment>
   );
 }

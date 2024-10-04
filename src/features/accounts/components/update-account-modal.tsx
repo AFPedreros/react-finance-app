@@ -6,6 +6,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
+import { Fragment } from "react";
 
 import { UpdateAccountForm } from "./update-account-form";
 
@@ -27,7 +28,7 @@ export function UpdateAccountModal({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <>
+    <Fragment>
       <Button
         isIconOnly
         disabled={isLoading}
@@ -59,6 +60,6 @@ export function UpdateAccountModal({
           )}
         </ModalContent>
       </Modal>
-    </>
+    </Fragment>
   );
 }

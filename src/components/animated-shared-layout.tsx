@@ -2,7 +2,7 @@
 
 import { Image } from "@nextui-org/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 const GAMES = [
@@ -74,10 +74,10 @@ export function AnimatedSharedLayout() {
   }, []);
 
   return (
-    <>
+    <Fragment>
       <AnimatePresence>
         {activeGame && (
-          <>
+          <Fragment>
             <motion.div
               animate={{ opacity: 1 }}
               className="z-1 pointer-events-none absolute inset-0"
@@ -142,7 +142,7 @@ export function AnimatedSharedLayout() {
                 </motion.p>
               </motion.div>
             </motion.div>
-          </>
+          </Fragment>
         )}
       </AnimatePresence>
 
@@ -202,6 +202,6 @@ export function AnimatedSharedLayout() {
           </motion.li>
         ))}
       </ul>
-    </>
+    </Fragment>
   );
 }

@@ -34,7 +34,7 @@ export function Drawer({ ...props }: ModalProps) {
       size="full"
       onOpenChange={props.onOpenChange}
     >
-      <>{props.children}</>
+      {props.children}
     </Modal>
   );
 }
