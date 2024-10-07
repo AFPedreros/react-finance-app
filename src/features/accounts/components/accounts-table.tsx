@@ -15,12 +15,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 
 import { loadingCreateAccountQueryOptions } from "../api/create-account";
+import { useDeleteAccount } from "../api/delete-account";
 import { useAllAccounts } from "../api/get-accounts";
 import { columns } from "../lib/columns";
 
-import { DeleteAccountButton } from "./delete-account-button";
 import { UpdateAccountModal } from "./update-account-modal";
 
+import { DeleteButton } from "@/components/delete-button";
 import { formatCurrency } from "@/lib/utils";
 
 export function AccountsTable({ searchValue }: { searchValue: string }) {
@@ -28,6 +29,7 @@ export function AccountsTable({ searchValue }: { searchValue: string }) {
   const { data: loadingCreateAccount } = useQuery(
     loadingCreateAccountQueryOptions(),
   );
+  const { mutate } = useDeleteAccount({});
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "name",
@@ -125,9 +127,15 @@ export function AccountsTable({ searchValue }: { searchValue: string }) {
                     isLoading={isOptimisticAccount}
                     name={account.name}
                   />
-                  <DeleteAccountButton
-                    id={account.id?.toString() ?? ""}
+
+                  <DeleteButton<string>
+                    errorMessage="Error deleting account"
+                    id={account.id?.toString()}
                     isLoading={isOptimisticAccount}
+                    successMessage="Account deleted!"
+                    onDelete={async (id) => {
+                      await mutate({ id: Number(id) });
+                    }}
                   />
                 </div>
               </TableCell>

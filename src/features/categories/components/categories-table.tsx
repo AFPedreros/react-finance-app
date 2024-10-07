@@ -15,14 +15,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 
 import { loadingCreateCategoryQueryOptions } from "../api/create-category";
+import { useDeleteCategory } from "../api/delete-category";
 import { useAllCategories } from "../api/get-categories";
 import { columns } from "../lib/columns";
 
+import { DeleteButton } from "@/components/delete-button";
+
 export function CategoriesTable({ searchValue }: { searchValue: string }) {
   const { data, isPending } = useAllCategories();
-  const { data: loadingCreateAccount } = useQuery(
+  const { data: loadingCreateCategory } = useQuery(
     loadingCreateCategoryQueryOptions(),
   );
+  const { mutate } = useDeleteCategory({});
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "name",
@@ -31,19 +35,19 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
 
   let categories = data ?? [];
 
-  if (loadingCreateAccount?.category) {
-    const optimisticAccount = {
-      ...loadingCreateAccount.category,
+  if (loadingCreateCategory?.category) {
+    const optimisticCategory = {
+      ...loadingCreateCategory.category,
       id: 999999,
       createdAt: new Date().toISOString(),
     };
 
-    categories = [optimisticAccount, ...categories];
+    categories = [optimisticCategory, ...categories];
   }
 
   const searchedCategories = useMemo(() => {
-    return categories.filter((account) =>
-      account.name.toLowerCase().includes(searchValue?.toLowerCase()),
+    return categories.filter((categories) =>
+      categories.name.toLowerCase().includes(searchValue?.toLowerCase()),
     );
   }, [categories, searchValue]);
 
@@ -102,26 +106,24 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
         items={sortedCategories}
         loadingContent={<Spinner size="lg" />}
       >
-        {sortedCategories.map((account) => {
-          const isOptimisticCategory = account.id === 999999;
+        {sortedCategories.map((category) => {
+          const isOptimisticCategory = category.id === 999999;
 
           return (
-            <TableRow key={account.id}>
-              <TableCell>{account.name}</TableCell>
+            <TableRow key={category.id}>
+              <TableCell>{category.name}</TableCell>
               <TableCell>Label</TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-2">
-                  Actions
-                  {/* <UpdateAccountModal
-                    balance={account.balance}
-                    id={account.id}
-                    isLoading={isOptimisticAccount}
-                    name={account.name}
+                  <DeleteButton<string>
+                    errorMessage="Error deleting category"
+                    id={category.id?.toString()}
+                    isLoading={isOptimisticCategory}
+                    successMessage="Category deleted!"
+                    onDelete={async (id) => {
+                      await mutate({ id: Number(id) });
+                    }}
                   />
-                  <DeleteAccountButton
-                    id={account.id?.toString() ?? ""}
-                    isLoading={isOptimisticAccount}
-                  /> */}
                 </div>
               </TableCell>
             </TableRow>
