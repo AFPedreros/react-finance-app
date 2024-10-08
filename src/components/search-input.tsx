@@ -1,13 +1,13 @@
 import { Input } from "@nextui-org/input";
 import { cn } from "@nextui-org/theme";
-import React from "react";
+import { ChangeEvent, HTMLAttributes } from "react";
 
 import { SearchIcon } from "./icons";
 
 type SearchInputProps = {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-} & React.HTMLAttributes<HTMLDivElement>;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+} & HTMLAttributes<HTMLDivElement>;
 
 export function SearchInput({ className, value, onChange }: SearchInputProps) {
   return (
