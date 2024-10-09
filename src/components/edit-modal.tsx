@@ -6,25 +6,23 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import { Fragment } from "react";
-
-import { UpdateAccountForm } from "./update-account-form";
+import { cloneElement, Fragment, ReactElement, ReactNode } from "react";
 
 import { PenIcon } from "@/components/icons";
 
-type UpdateAccountModalProps = {
-  balance: string;
-  id: number;
+type EditModalProps = {
   isLoading?: boolean;
-  name: string;
+  title: string;
+  description: string;
+  children: ReactNode;
 };
 
-export function UpdateAccountModal({
-  balance,
-  id,
+export function EditModal({
   isLoading,
-  name,
-}: UpdateAccountModalProps) {
+  title,
+  description,
+  children,
+}: EditModalProps) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -47,15 +45,14 @@ export function UpdateAccountModal({
           {(onClose) => (
             <ModalBody>
               <ModalHeader className="flex-col items-center gap-1 px-0 text-center">
-                <h1 className="text-xl">Edit account.</h1>
+                <h1 className="text-xl">{title}</h1>
                 <p className="text-small font-normal text-default-500">
-                  Add the details of the account you want to edit.
+                  {description}
                 </p>
               </ModalHeader>
-              <UpdateAccountForm
-                account={{ balance, id, name }}
-                onClose={onClose}
-              />
+              {cloneElement(children as ReactElement, {
+                onClose,
+              })}
             </ModalBody>
           )}
         </ModalContent>

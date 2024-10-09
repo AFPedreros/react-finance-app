@@ -14,7 +14,7 @@ import { Account } from "@/types";
 
 type UpdateAccountFormProps = {
   account: Omit<Account, "createdAt" | "userId">;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 export function UpdateAccountForm({
@@ -57,7 +57,7 @@ export function UpdateAccountForm({
 
     mutate({ data });
     reset();
-    onClose();
+    onClose?.();
   }
 
   return (

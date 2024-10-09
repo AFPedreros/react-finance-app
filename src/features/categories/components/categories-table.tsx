@@ -19,7 +19,10 @@ import { useDeleteCategory } from "../api/delete-category";
 import { useAllCategories } from "../api/get-categories";
 import { columns } from "../lib/columns";
 
+import { UpdateCategoryForm } from "./update-category-form";
+
 import { DeleteButton } from "@/components/delete-button";
+import { EditModal } from "@/components/edit-modal";
 
 export function CategoriesTable({ searchValue }: { searchValue: string }) {
   const { data, isPending } = useAllCategories();
@@ -39,7 +42,7 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
     const optimisticCategory = {
       ...loadingCreateCategory.category,
       id: 999999,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
     };
 
     categories = [optimisticCategory, ...categories];
@@ -115,9 +118,25 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
               <TableCell>Label</TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-2">
+                  <EditModal
+                    description="Add the details of the category you want to edit."
+                    isLoading={isOptimisticCategory}
+                    title="Edit category"
+                  >
+                    <UpdateCategoryForm
+                      category={{
+                        color: category.color,
+                        icon: category.icon,
+                        id: category.id,
+                        name: category.name,
+                        type: category.type,
+                      }}
+                    />
+                  </EditModal>
+
                   <DeleteButton<string>
                     errorMessage="Error deleting category"
-                    id={category.id?.toString()}
+                    id={category.id!.toString()}
                     isLoading={isOptimisticCategory}
                     successMessage="Category deleted!"
                     onDelete={async (id) => {

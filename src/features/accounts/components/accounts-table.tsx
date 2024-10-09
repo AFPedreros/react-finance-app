@@ -19,9 +19,10 @@ import { useDeleteAccount } from "../api/delete-account";
 import { useAllAccounts } from "../api/get-accounts";
 import { columns } from "../lib/columns";
 
-import { UpdateAccountModal } from "./update-account-modal";
+import { UpdateAccountForm } from "./update-account-form";
 
 import { DeleteButton } from "@/components/delete-button";
+import { EditModal } from "@/components/edit-modal";
 import { formatCurrency } from "@/lib/utils";
 
 export function AccountsTable({ searchValue }: { searchValue: string }) {
@@ -121,12 +122,19 @@ export function AccountsTable({ searchValue }: { searchValue: string }) {
               <TableCell>{formatCurrency(account.balance)}</TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-2">
-                  <UpdateAccountModal
-                    balance={account.balance}
-                    id={account.id}
+                  <EditModal
+                    description="Add the details of the account you want to edit."
                     isLoading={isOptimisticAccount}
-                    name={account.name}
-                  />
+                    title="Edit account"
+                  >
+                    <UpdateAccountForm
+                      account={{
+                        balance: account.balance,
+                        id: account.id,
+                        name: account.name,
+                      }}
+                    />
+                  </EditModal>
 
                   <DeleteButton<string>
                     errorMessage="Error deleting account"
