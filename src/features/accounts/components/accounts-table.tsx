@@ -43,7 +43,7 @@ export function AccountsTable({ searchValue }: { searchValue: string }) {
     const optimisticAccount = {
       ...loadingCreateAccount.account,
       id: 999999,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
     };
 
     accounts = [optimisticAccount, ...accounts];
@@ -138,7 +138,7 @@ export function AccountsTable({ searchValue }: { searchValue: string }) {
 
                   <DeleteButton<string>
                     errorMessage="Error deleting account"
-                    id={account.id?.toString()}
+                    id={account.id!.toString()}
                     isLoading={isOptimisticAccount}
                     successMessage="Account deleted!"
                     onDelete={async (id) => {

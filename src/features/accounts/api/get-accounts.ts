@@ -3,6 +3,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/react-query";
 import { getOrCreateUUID } from "@/lib/utils";
+import { Account } from "@/types";
 
 const userId = getOrCreateUUID();
 
@@ -17,7 +18,7 @@ async function getAllAccounts() {
 
   const accounts = await response.json();
 
-  return accounts;
+  return accounts as Account[];
 }
 
 export const getAllAccountsQueryOptions = () => {
