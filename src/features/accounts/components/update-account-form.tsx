@@ -99,27 +99,27 @@ export function UpdateAccountForm({
           />
         )}
       />
+
       <Divider className="my-2" />
-      <div className="flex w-full items-center justify-end pb-4">
-        <div className="flex gap-2">
-          <Button
-            color="danger"
-            isDisabled={!isValid || isSubmitting}
-            type="button"
-            variant="flat"
-            onPress={onClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            color="primary"
-            isDisabled={!isValid || isSubmitting}
-            isLoading={isSubmitting}
-            type="submit"
-          >
-            Save
-          </Button>
-        </div>
+
+      <div className="ml-auto flex gap-2 pb-4">
+        <Button
+          color="danger"
+          isDisabled={!isValid || isSubmitting}
+          type="button"
+          variant="flat"
+          onPress={onClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          color="primary"
+          isDisabled={!isValid || isSubmitting}
+          isLoading={isSubmitting}
+          type="submit"
+        >
+          Save
+        </Button>
       </div>
     </form>
   );

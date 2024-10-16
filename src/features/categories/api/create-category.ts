@@ -8,7 +8,7 @@ import { getAllCategoriesQueryOptions } from "./get-categories";
 
 import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/react-query";
-import { CreateCategory } from "@/types/categories";
+import { CreateCategory } from "@/types";
 
 export async function createCategory({ data }: { data: CreateCategory }) {
   const response = await api.categories.$post({
@@ -86,7 +86,13 @@ export const useCreateCategory = ({
 
       if (newCategory) {
         queryClient.setQueryData(getAllCategoriesQueryOptions().queryKey, [
-          newCategory,
+          {
+            ...newCategory,
+            createdAt: newCategory.createdAt
+              ? new Date(newCategory.createdAt)
+              : null,
+            type: newCategory.type as "expense" | "income",
+          },
           ...(existingCategories || []),
         ]);
       }

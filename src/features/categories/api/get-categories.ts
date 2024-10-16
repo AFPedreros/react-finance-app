@@ -3,7 +3,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { QueryConfig } from "@/lib/react-query";
 import { getOrCreateUUID } from "@/lib/utils";
-import { Category } from "@/types/categories";
+import { Category } from "@/types";
 
 const userId = getOrCreateUUID();
 

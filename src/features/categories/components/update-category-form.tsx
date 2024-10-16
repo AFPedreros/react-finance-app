@@ -6,6 +6,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { useUpdateCategory } from "../api/update-category";
 // import { useUpdateAccount } from "../api/update-account";
 import { updateCategoryFormSchema } from "../schemas";
 import { UpdateCategoryInputs } from "../types";
@@ -14,7 +15,7 @@ import { ColorPicker } from "./color-picker";
 import { IconPicker } from "./icon-picker";
 
 import { getOrCreateUUID } from "@/lib/utils";
-import { Category } from "@/types/categories";
+import { Category } from "@/types";
 
 type UpdateCategoryFormProps = {
   category: Omit<Category, "createdAt" | "userId">;
@@ -27,16 +28,16 @@ export function UpdateCategoryForm({
 }: UpdateCategoryFormProps) {
   const userId = getOrCreateUUID();
 
-  // const { mutate } = useUpdateAccount({
-  //   mutationConfig: {
-  //     onSuccess: () => {
-  //       toast.success("Account updated!");
-  //     },
-  //     onError: (error) => {
-  //       toast.error(error.message);
-  //     },
-  //   },
-  // });
+  const { mutate } = useUpdateCategory({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Category updated!");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    },
+  });
 
   const {
     formState: { isValid, isSubmitting, dirtyFields, errors },
@@ -61,8 +62,8 @@ export function UpdateCategoryForm({
       userId,
     };
 
-    // mutate({ data });
-    console.log(data);
+    mutate({ data });
+    // console.log(data);
     reset();
     onClose?.();
   }
@@ -134,16 +135,28 @@ export function UpdateCategoryForm({
           />
         )}
       />
+
       <Divider className="my-2" />
-      <Button
-        fullWidth
-        color="primary"
-        isDisabled={!isValid || isSubmitting}
-        isLoading={isSubmitting}
-        type="submit"
-      >
-        {isSubmitting ? "Creating" : "Create"}
-      </Button>
+
+      <div className="ml-auto flex gap-2 pb-4">
+        <Button
+          color="danger"
+          isDisabled={!isValid || isSubmitting}
+          type="button"
+          variant="flat"
+          onPress={onClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          color="primary"
+          isDisabled={!isValid || isSubmitting}
+          isLoading={isSubmitting}
+          type="submit"
+        >
+          Save
+        </Button>
+      </div>
     </form>
   );
 }

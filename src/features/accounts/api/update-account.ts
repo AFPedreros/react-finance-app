@@ -48,8 +48,9 @@ export const useUpdateAccount = ({
       const updatedAccount = {
         ...variables.data,
         id: variables.data.id ?? 9999,
-        createdAt:
-          variables.data.createdAt?.toString() ?? new Date().toISOString(),
+        createdAt: variables.data.createdAt
+          ? new Date(variables.data.createdAt)
+          : new Date(),
       };
 
       const newAccounts = existingAccounts.map((item) =>

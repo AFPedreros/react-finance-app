@@ -110,7 +110,12 @@ export const useCreateAccount = ({
 
       if (newAccount) {
         queryClient.setQueryData(getAllAccountsQueryOptions().queryKey, [
-          newAccount,
+          {
+            ...newAccount,
+            createdAt: newAccount.createdAt
+              ? new Date(newAccount.createdAt)
+              : null,
+          },
           ...(existingAccounts || []),
         ]);
       }
