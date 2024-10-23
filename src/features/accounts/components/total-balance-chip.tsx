@@ -15,7 +15,7 @@ export function TotalBalanceChip() {
   }
 
   return (
-    <Chip className="mr-2" color="success" variant="faded">
+    <Chip className="mr-2" color="success" radius="sm" variant="faded">
       Total:{" "}
       <AnimatedNumber
         springOptions={{

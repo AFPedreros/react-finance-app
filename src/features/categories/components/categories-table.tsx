@@ -21,6 +21,7 @@ import { columns } from "../lib/columns";
 
 import { UpdateCategoryForm } from "./update-category-form";
 
+import { CategoryTag } from "@/components/category-tag";
 import { DeleteButton } from "@/components/delete-button";
 import { EditModal } from "@/components/edit-modal";
 
@@ -115,7 +116,14 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
           return (
             <TableRow key={category.id}>
               <TableCell>{category.name}</TableCell>
-              <TableCell>Label</TableCell>
+              <TableCell>
+                <CategoryTag
+                  color={category.color}
+                  icon={category.icon}
+                  name={category.name}
+                  type={category.type}
+                />
+              </TableCell>
               <TableCell>
                 <div className="relative flex items-center justify-end gap-2">
                   <EditModal
