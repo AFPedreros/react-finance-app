@@ -20,8 +20,6 @@ export function CategoryTag({
       classNames={{
         content: "!text-small px-1",
       }}
-      radius="sm"
-      startContent={<Icon className="size-4" icon={icon} />}
       endContent={
         <span
           className={cn(
@@ -30,7 +28,8 @@ export function CategoryTag({
           )}
         />
       }
-      // color={type === "expense" ? "danger" : "success"}
+      radius="sm"
+      startContent={<Icon className="size-4" icon={icon} />}
       style={{
         backgroundColor: `${color}15`,
         color: color,
