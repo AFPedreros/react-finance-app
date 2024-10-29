@@ -18,14 +18,14 @@ export function CategoryTag({
     <Chip
       classNames={{
         content: "!text-small px-1",
-        base: type === "expense" ? "bg-danger/20" : "bg-success/20",
+        base: type === "expense" ? "text-danger" : "text-success",
       }}
       radius="sm"
       startContent={<Icon className="size-4" icon={icon} />}
       style={{
-        color: color,
+        borderColor: `${color}50`,
       }}
-      variant="light"
+      variant="faded"
     >
       {name}
     </Chip>
