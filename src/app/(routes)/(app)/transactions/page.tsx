@@ -9,8 +9,10 @@ export default function TransactionsPage() {
           Transactions
         </h1>
 
-        <MonthSelect />
-        <CreateTransactionDrawer />
+        <div className="flex items-center gap-4">
+          <MonthSelect />
+          <CreateTransactionDrawer />
+        </div>
       </div>
 
       {/* <TransactionsCard /> */}

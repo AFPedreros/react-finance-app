@@ -20,6 +20,7 @@ export function CreateTransactionDrawer() {
   return (
     <Fragment>
       <Button
+        className="shrink-0"
         color="primary"
         endContent={<PlusIcon className="hidden shrink-0 sm:block" size={18} />}
         onPress={onOpen}
