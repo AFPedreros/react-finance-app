@@ -1,7 +1,11 @@
 import { CreateTransactionDrawer } from "@/features/transactions/components/create-transaction-drawer";
 import { MonthSelect } from "@/features/transactions/components/month-select";
+import { months } from "@/features/transactions/lib/utils";
 
 export default function TransactionsPage() {
+  const now = new Date();
+  const currentMonth = months[now.getMonth()].key;
+
   return (
     <main className="flex h-[calc(100vh-64px)] flex-col gap-y-6 p-6">
       <div className="flex items-center justify-between">
@@ -10,7 +14,7 @@ export default function TransactionsPage() {
         </h1>
 
         <div className="flex items-center gap-4">
-          <MonthSelect />
+          <MonthSelect currentMonth={currentMonth} />
           <CreateTransactionDrawer />
         </div>
       </div>

@@ -1,20 +1,24 @@
 "use client";
 
 import { Select, SelectItem } from "@nextui-org/select";
+import { useState } from "react";
 
 import { months } from "../lib/utils";
 
-export function MonthSelect() {
-  const now = new Date();
-  const monthIndex = now.getMonth();
-  const currentMonth = months[monthIndex].key;
+type MonthSelectProps = {
+  currentMonth: string;
+};
+
+export function MonthSelect({ currentMonth }: MonthSelectProps) {
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
 
   return (
     <Select
       aria-labelledby="month-select"
       className="w-32"
-      value={currentMonth}
+      selectedKeys={[selectedMonth]}
       variant="bordered"
+      onChange={(e) => setSelectedMonth(e.target.value)}
     >
       {months.map((month) => (
         <SelectItem key={month.key} value={month.key}>
