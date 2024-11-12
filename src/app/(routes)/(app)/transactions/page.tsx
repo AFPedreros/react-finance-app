@@ -1,5 +1,6 @@
 import { CreateTransactionDrawer } from "@/features/transactions/components/create-transaction-drawer";
 import { MonthSelect } from "@/features/transactions/components/month-select";
+import { ActionCard } from "@/features/transactions/components/transaction-card";
 import { months } from "@/features/transactions/lib/utils";
 
 export default function TransactionsPage() {
@@ -19,6 +20,26 @@ export default function TransactionsPage() {
         </div>
       </div>
 
+      <div className="flex gap-3">
+        <ActionCard
+          color="warning"
+          description="Create a new Direct Employee Agreement template."
+          icon="solar:document-medicine-linear"
+          title="Income"
+        />
+        <ActionCard
+          color="danger"
+          description="Edit the Direct Employee Agreement template."
+          icon="solar:document-add-linear"
+          title="Expenses"
+        />
+        <ActionCard
+          color="secondary"
+          description="Edit the Direct Employee Agreement template."
+          icon="solar:document-add-linear"
+          title="Savings"
+        />
+      </div>
       {/* <TransactionsCard /> */}
     </main>
   );
