@@ -14,7 +14,7 @@ export type ActionCardProps = CardProps & {
   description: string;
 };
 
-export function ActionCard({
+export function TransactionCard({
   color,
   title,
   icon,
