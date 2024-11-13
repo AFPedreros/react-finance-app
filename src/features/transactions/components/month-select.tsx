@@ -18,7 +18,9 @@ export function MonthSelect({ currentMonth }: MonthSelectProps) {
       className="w-32"
       selectedKeys={[selectedMonth]}
       variant="bordered"
-      onChange={(e) => setSelectedMonth(e.target.value)}
+      onChange={(e) =>
+        setSelectedMonth(e.target.value === "" ? selectedMonth : e.target.value)
+      }
     >
       {months.map((month) => (
         <SelectItem key={month.key} value={month.key}>

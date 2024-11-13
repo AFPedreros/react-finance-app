@@ -10,16 +10,15 @@ import type { CardProps } from "@nextui-org/card";
 export type ActionCardProps = CardProps & {
   icon: string;
   title: string;
-  color?: "primary" | "secondary" | "warning" | "danger";
-  description: string;
+  color?: "primary" | "secondary" | "warning" | "danger" | "success";
+  amount: string;
 };
 
 export function TransactionCard({
   color,
   title,
   icon,
-  description,
-  children,
+  amount,
   className,
   ...props
 }: ActionCardProps) {
@@ -33,9 +32,15 @@ export function TransactionCard({
         };
       case "secondary":
         return {
-          card: "border-secondary-100",
+          card: "border-secondary-300",
           iconWrapper: "bg-secondary-50 border-secondary-100",
           icon: "text-secondary",
+        };
+      case "success":
+        return {
+          card: "border-success-300",
+          iconWrapper: "bg-success-50 border-success-100",
+          icon: "text-success-600",
         };
       case "warning":
         return {
@@ -61,7 +66,6 @@ export function TransactionCard({
 
   return (
     <Card
-      isPressable
       className={cn("border-small", colors?.card, className)}
       shadow="sm"
       {...props}
@@ -76,9 +80,9 @@ export function TransactionCard({
           <Icon className={colors?.icon} icon={icon} width={24} />
         </div>
         <div className="flex flex-col">
-          <p className="text-medium">{title}</p>
-          <p className="text-small text-default-400">
-            {description || children}
+          <p className="text-medium text-default-400">{title}</p>
+          <p className="text-lg">
+            <span className="text-medium text-default-400">&#36;</span> {amount}
           </p>
         </div>
       </CardBody>

@@ -22,21 +22,21 @@ export default function TransactionsPage() {
 
       <div className="flex gap-3">
         <TransactionCard
-          color="warning"
-          description="Create a new Direct Employee Agreement template."
-          icon="solar:document-medicine-linear"
+          amount="Create a new Direct Employee Agreement template."
+          color="success"
+          icon="solar:arrow-right-down-outline"
           title="Income"
         />
         <TransactionCard
+          amount="Edit the Direct Employee Agreement template."
           color="danger"
-          description="Edit the Direct Employee Agreement template."
-          icon="solar:document-add-linear"
+          icon="solar:arrow-left-up-outline"
           title="Expenses"
         />
         <TransactionCard
+          amount="Edit the Direct Employee Agreement template."
           color="secondary"
-          description="Edit the Direct Employee Agreement template."
-          icon="solar:document-add-linear"
+          icon="solar:money-bag-outline"
           title="Savings"
         />
       </div>
