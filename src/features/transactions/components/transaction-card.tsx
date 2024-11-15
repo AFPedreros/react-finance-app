@@ -5,6 +5,8 @@ import { Card, CardBody } from "@nextui-org/card";
 import { cn } from "@nextui-org/theme";
 import { useMemo } from "react";
 
+import { formatCurrency } from "@/lib/utils";
+
 import type { CardProps } from "@nextui-org/card";
 
 export type ActionCardProps = CardProps & {
@@ -81,9 +83,7 @@ export function TransactionCard({
         </div>
         <div className="flex flex-col">
           <p className="text-medium text-default-400">{title}</p>
-          <p className="text-lg">
-            <span className="text-medium text-default-400">&#36;</span> {amount}
-          </p>
+          <p className="text-lg">{formatCurrency(amount)}</p>
         </div>
       </CardBody>
     </Card>

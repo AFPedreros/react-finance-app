@@ -121,7 +121,6 @@ export function CategoriesTable({ searchValue }: { searchValue: string }) {
                   color={category.color}
                   icon={category.icon}
                   name={category.name}
-                  type={category.type}
                 />
               </TableCell>
               <TableCell>

@@ -5,23 +5,18 @@ type CategoryTagProps = {
   name: string;
   color: string;
   icon: string;
-  type?: "expense" | "income";
 };
 
-export function CategoryTag({
-  name,
-  color,
-  icon,
-  type = "expense",
-}: CategoryTagProps) {
+export function CategoryTag({ name, color, icon }: CategoryTagProps) {
   return (
     <Chip
       classNames={{
         content: "!text-small px-1",
-        base: type === "expense" ? "text-danger" : "text-success",
       }}
       radius="sm"
-      startContent={<Icon className="size-4" icon={icon} />}
+      startContent={
+        <Icon className="mr-0.5 size-4" color={color} icon={icon} />
+      }
       style={{
         borderColor: `${color}50`,
       }}

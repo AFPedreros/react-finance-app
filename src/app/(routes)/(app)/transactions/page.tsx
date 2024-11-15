@@ -20,21 +20,21 @@ export default function TransactionsPage() {
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="grid grid-cols-4 gap-3">
         <TransactionCard
-          amount="Create a new Direct Employee Agreement template."
+          amount="6804000.00"
           color="success"
           icon="solar:arrow-right-down-outline"
           title="Income"
         />
         <TransactionCard
-          amount="Edit the Direct Employee Agreement template."
+          amount="6804000.00"
           color="danger"
           icon="solar:arrow-left-up-outline"
           title="Expenses"
         />
         <TransactionCard
-          amount="Edit the Direct Employee Agreement template."
+          amount="6804000.00"
           color="secondary"
           icon="solar:money-bag-outline"
           title="Savings"
