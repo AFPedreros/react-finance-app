@@ -10,6 +10,7 @@ import {
 import { Fragment } from "react";
 
 import { CreateTransactionForm } from "./create-transaction-form";
+import { CreateTransactionSelect } from "./create-transaction-select";
 
 import { Drawer } from "@/components/drawer";
 import { PlusIcon } from "@/components/icons";
@@ -33,6 +34,7 @@ export function CreateTransactionDrawer() {
             <ModalBody>
               <ModalHeader className="flex-col items-start gap-1 px-0">
                 <h2 className="text-xl">New Transaction.</h2>
+                <CreateTransactionSelect />
               </ModalHeader>
               <CreateTransactionForm onClose={onClose} />
             </ModalBody>

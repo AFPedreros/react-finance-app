@@ -12,3 +12,9 @@ export const months = [
   { key: "november", label: "November" },
   { key: "december", label: "December" },
 ];
+
+export const typesOfTransaction = [
+  { key: "income", label: "Income" },
+  { key: "expenses", label: "Expenses" },
+  { key: "savings", label: "Savings" },
+];
