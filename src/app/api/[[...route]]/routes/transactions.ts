@@ -1,5 +1,5 @@
 import { zValidator } from "@hono/zod-validator";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import { Hono } from "hono";
 
 import { db } from "@/db";
@@ -43,6 +43,51 @@ export const transactionsRoute = new Hono()
     }
 
     return c.json(transaction, 200);
+  })
+  .get("/total/income", zValidator("query", userIdSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+
+    const [result] = await db
+      .select({ totalIncome: sum(transactionsTable.amount) })
+      .from(transactionsTable)
+      .where(
+        and(
+          eq(transactionsTable.userId, userId),
+          eq(transactionsTable.type, "income"),
+        ),
+      );
+
+    return c.json(result, 200);
+  })
+  .get("/total/expenses", zValidator("query", userIdSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+
+    const [result] = await db
+      .select({ totalExpenses: sum(transactionsTable.amount) })
+      .from(transactionsTable)
+      .where(
+        and(
+          eq(transactionsTable.userId, userId),
+          eq(transactionsTable.type, "expenses"),
+        ),
+      );
+
+    return c.json(result, 200);
+  })
+  .get("/total/savings", zValidator("query", userIdSchema), async (c) => {
+    const { userId } = c.req.valid("query");
+
+    const [result] = await db
+      .select({ totalSavings: sum(transactionsTable.amount) })
+      .from(transactionsTable)
+      .where(
+        and(
+          eq(transactionsTable.userId, userId),
+          eq(transactionsTable.type, "savings"),
+        ),
+      );
+
+    return c.json(result, 200);
   })
   .post("/", zValidator("json", createTransactionSchema), async (c) => {
     const transaction = c.req.valid("json");
