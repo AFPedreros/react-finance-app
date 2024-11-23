@@ -5,6 +5,7 @@ import { handle } from "hono/vercel";
 import { accountsRoute } from "./routes/accounts";
 import { categoriesRoute } from "./routes/categories";
 import { helloRoute } from "./routes/hello";
+import { transactionsRoute } from "./routes/transactions";
 
 export const runtime = "edge";
 
@@ -17,7 +18,8 @@ const apiRoutes = app
   .basePath("/api")
   .route("/hello", helloRoute)
   .route("/accounts", accountsRoute)
-  .route("/categories", categoriesRoute);
+  .route("/categories", categoriesRoute)
+  .route("/transactions", transactionsRoute);
 
 app.all("*", (c) => c.text("404: Not Found"));
 
