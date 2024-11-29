@@ -1,3 +1,5 @@
+import { api } from "@/lib/api-client";
+
 export type Transaction = {
   id: string;
   name: string;
@@ -5,5 +7,7 @@ export type Transaction = {
   amount: number;
   date: Date;
   icon: string;
-  type: "expense" | "income" | "savings";
+  type: TransactionType;
 };
+
+export type TransactionType = keyof typeof api.transactions.total;
